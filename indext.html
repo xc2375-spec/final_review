@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>总复习 Final Review</title>
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8f5ef;
+      --card: #ffffff;
+      --ink: #1f1f1f;
+      --muted: #666;
+      --line: #ddd3c7;
+      --accent: #8b3d2e;
+      --accent2: #b76e4b;
+      --soft: #f3e8dc;
+      --soft2: #fcfaf7;
+      --ok: #2b6a41;
+      --bad: #a13535;
+      --shadow: 0 12px 28px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #faf7f2 0%, #f5eee5 100%);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header { padding: 36px 0 18px; }
+
+    .hero {
+      background: linear-gradient(135deg, #fffdf9, #f5e8dc);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: .95rem;
+      margin-bottom: 10px;
+    }
+
+    h1, h2, h3, h4 { margin: 0; }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .nav a, .btn {
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      font: inherit;
+      transition: .18s ease;
+    }
+
+    .nav a:hover, .btn:hover {
+      transform: translateY(-1px);
+      background: #fffaf4;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+
+    section { padding: 24px 0 8px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .search-row, .toggle-row, .write-tools, .quiz-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-row { margin-bottom: 14px; }
+
+    input[type="text"] {
+      flex: 1 1 260px;
+      min-width: 220px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .grid { display: grid; gap: 16px; }
+    .vocab-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .char-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grammar-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .radical-grid { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: .86rem;
+      margin-bottom: 8px;
+    }
+
+    .pinyin {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .english { margin-bottom: 10px; }
+    .small { color: var(--muted); font-size: .94rem; }
+
+    .answer, .stroke-panel, .feedback {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--soft2);
+      border: 1px dashed var(--line);
+    }
+
+    .show { display: block; }
+
+    .char-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .char-box {
+      min-width: 92px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .char-box .label {
+      display: block;
+      font-size: .84rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .char {
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    .hw-word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .hw-word-box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .hw-word-label {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hw-char-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hw-char-cell {
+      width: 84px;
+      height: 84px;
+      border: 1px dashed #d7cbbb;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(to right, transparent calc(50% - 1px), #efe2d5 calc(50% - 1px), #efe2d5 calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(to bottom, transparent calc(50% - 1px), #efe2d5 calc(50% - 1px), #efe2d5 calc(50% + 1px), transparent calc(50% + 1px)),
+        #fffdf9;
+      overflow: hidden;
+    }
+
+    .hanzi-target {
+      width: 76px;
+      height: 76px;
+    }
+
+    .canvas-wrap {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 360px;
+      height: 240px;
+      display: block;
+      touch-action: none;
+      background:
+        linear-gradient(to right, transparent calc(50% - 1px), #f0e3d6 calc(50% - 1px), #f0e3d6 calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(to bottom, transparent calc(50% - 1px), #f0e3d6 calc(50% - 1px), #f0e3d6 calc(50% + 1px), transparent calc(50% + 1px)),
+        #fff;
+    }
+
+    .lang-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .lang-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .lang-box h4 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .equal-note {
+      display: inline-block;
+      padding: 8px 12px;
+      background: var(--soft);
+      color: var(--accent);
+      border-radius: 12px;
+      font-weight: 700;
+      margin: 8px 0 10px;
+    }
+
+    .quiz {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #eee2d7;
+    }
+
+    .quiz-question { margin-bottom: 10px; }
+
+    .option {
+      display: block;
+      width: 100%;
+      margin: 6px 0;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .option input { margin-right: 8px; }
+
+    .feedback.ok {
+      color: var(--ok);
+      border-color: #bfd8c5;
+      background: #f6fbf7;
+    }
+
+    .feedback.bad {
+      color: var(--bad);
+      border-color: #e5c1c1;
+      background: #fff8f8;
+    }
+
+    .radical-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f7ede5;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-size: .92rem;
+    }
+
+    .char-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .char-chip {
+      position: relative;
+      font-size: 1.35rem;
+      line-height: 1.2;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: #fffaf5;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tooltip {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 10px);
+      transform: translateX(-50%);
+      width: 240px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 30px rgba(0,0,0,.12);
+      display: none;
+      z-index: 10;
+      font-size: .95rem;
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .tooltip.show { display: block; }
+    .tt-pinyin { color: var(--accent); font-weight: 700; }
+
+    .footer-note {
+      margin-top: 28px;
+      background: linear-gradient(135deg, #fffaf3, #f3e6d9);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .footer-note p {
+      max-width: 860px;
+      margin: 8px auto;
+    }
+
+    @media (max-width: 720px) {
+      .lang-block { grid-template-columns: 1fr; }
+      .tooltip { left: 0; right: 0; width: auto; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="hero">
+        <div class="eyebrow">Final Review</div>
+        <h1>总复习 Vocabulary · Radicals · Grammar</h1>
+        <div class="nav">
+          <a href="#vocab">词汇 Vocabulary</a>
+          <a href="#char2pinyin">标拼音 Pinyin</a>
+          <a href="#radicals">部首 Radicals</a>
+          <a href="#grammar">语法 Grammar</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="vocab">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>1. 词汇复习 Vocabulary Review</h2>
+            <p>先看拼音和英文，自己回想汉字。点击后显示正确的简体和繁体。词汇部分保留笔顺动画和手写练习。</p>
+          </div>
+        </div>
+
+        <div class="search-row">
+          <input id="vocabSearch" type="text" placeholder="Search by pinyin, English, 简体, or 繁体...">
+          <button class="btn" id="showAllVocab">全部显示 Show All</button>
+          <button class="btn" id="hideAllVocab">全部收起 Hide All</button>
+        </div>
+
+        <div class="grid vocab-grid" id="vocabGrid"></div>
+      </div>
+    </section>
+
+    <section id="char2pinyin">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>2. 给汉字选拼音 Choose the Correct Pinyin</h2>
+            <p>看汉字，选择正确的带声调拼音。题目包含你给的总复习词汇，也加入了一些新词。</p>
+          </div>
+        </div>
+        <div class="grid char-grid" id="charPinyinGrid"></div>
+      </div>
+    </section>
+
+    <section id="radicals">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>3. 部首复习 Radical Review</h2>
+            <p>参考你给的旧总复习格式。点击例字会跳出拼音、英文和例句。部首部分不放笔顺动画。</p>
+          </div>
+        </div>
+        <div class="grid radical-grid" id="radicalGrid"></div>
+      </div>
+    </section>
+
+    <section id="grammar">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>4. 语法复习 Grammar Review</h2>
+            <p>保留简体和繁体说明，并用选择题检查理解。也加入了“对……有兴趣”和“不但……也……”。</p>
+          </div>
+        </div>
+        <div class="grid grammar-grid" id="grammarGrid"></div>
+      </div>
+    </section>
+
+    <section id="blessing">
+      <div class="container">
+        <div class="footer-note">
+          <h2>祝大家期末取得好成绩，暑假愉快！</h2>
+          <p>希望大家期末考试顺利，复习有收获，也希望你们暑假开心、放松，并继续把中文真正用起来。</p>
+          <p><strong>Wishing you great success on your final exams and a wonderful summer!</strong> I hope your review feels meaningful, your finals go smoothly, and you keep using Chinese in real life with more confidence.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const vocabData = [
+      { simp: '颜色', trad: '顏色', pinyin: 'yánsè', english: 'color' },
+      { simp: '几乎', trad: '幾乎', pinyin: 'jīhū', english: 'almost; nearly' },
+      { simp: '锻炼', trad: '鍛鍊', pinyin: 'duànliàn', english: 'to exercise; to train' },
+      { simp: '春节', trad: '春節', pinyin: 'chūnjié', english: 'Spring Festival' },
+      { simp: '创造', trad: '創造', pinyin: 'chuàngzào', english: 'to create' },
+      { simp: '内容', trad: '內容', pinyin: 'nèiróng', english: 'content' },
+      { simp: '出产', trad: '出產', pinyin: 'chūchǎn', english: 'to produce' },
+      { simp: '脾气', trad: '脾氣', pinyin: 'píqi', english: 'temper' },
+      { simp: '诚实', trad: '誠實', pinyin: 'chéngshí', english: 'honest' },
+      { simp: '丰富', trad: '豐富', pinyin: 'fēngfù', english: 'rich; abundant' },
+      { simp: '尊敬', trad: '尊敬', pinyin: 'zūnjìng', english: 'to respect' },
+      { simp: '时装', trad: '時裝', pinyin: 'shízhuāng', english: 'fashion clothing' },
+      { simp: '信仰', trad: '信仰', pinyin: 'xìnyǎng', english: 'belief; faith' },
+      { simp: '悲哀', trad: '悲哀', pinyin: 'bēiāi', english: 'sorrowful; sad' },
+      { simp: '附近', trad: '附近', pinyin: 'fùjìn', english: 'nearby' },
+      { simp: '商店', trad: '商店', pinyin: 'shāngdiàn', english: 'store; shop' },
+      { simp: '收拾', trad: '收拾', pinyin: 'shōushi', english: 'to tidy up' },
+      { simp: '原来', trad: '原來', pinyin: 'yuánlái', english: 'it turns out; originally' },
+      { simp: '学校', trad: '學校', pinyin: 'xuéxiào', english: 'school' },
+      { simp: '幸福', trad: '幸福', pinyin: 'xìngfú', english: 'happiness; happy' },
+      { simp: '积极', trad: '積極', pinyin: 'jījí', english: 'active; positive' },
+      { simp: '态度', trad: '態度', pinyin: 'tàidù', english: 'attitude' },
+      { simp: '鼓励', trad: '鼓勵', pinyin: 'gǔlì', english: 'to encourage' },
+      { simp: '环境', trad: '環境', pinyin: 'huánjìng', english: 'environment' },
+      { simp: '困难', trad: '困難', pinyin: 'kùnnan', english: 'difficulty; difficult' },
+      { simp: '结果', trad: '結果', pinyin: 'jiéguǒ', english: 'result' },
+      { simp: '电影', trad: '電影', pinyin: 'diànyǐng', english: 'movie' },
+      { simp: '漂亮', trad: '漂亮', pinyin: 'piàoliang', english: 'beautiful; pretty' },
+      { simp: '考试', trad: '考試', pinyin: 'kǎoshì', english: 'exam' },
+      { simp: '参加', trad: '參加', pinyin: 'cānjiā', english: 'to participate' },
+      { simp: '其中', trad: '其中', pinyin: 'qízhōng', english: 'among them; among which' },
+      { simp: '当官', trad: '當官', pinyin: 'dāngguān', english: 'to be an official' },
+      { simp: '应该', trad: '應該', pinyin: 'yīnggāi', english: 'should; ought to' },
+      { simp: '机会', trad: '機會', pinyin: 'jīhuì', english: 'opportunity; chance' },
+      { simp: '可是', trad: '可是', pinyin: 'kěshì', english: 'but; however' },
+      { simp: '耐心', trad: '耐心', pinyin: 'nàixīn', english: 'patience' },
+      { simp: '为了', trad: '為了', pinyin: 'wèile', english: 'for; for the sake of' },
+      { simp: '终于', trad: '終於', pinyin: 'zhōngyú', english: 'finally; at last' },
+      { simp: '影响', trad: '影響', pinyin: 'yǐngxiǎng', english: 'influence; to affect' },
+      { simp: '到处', trad: '到處', pinyin: 'dàochù', english: 'everywhere' },
+      { simp: '举行', trad: '舉行', pinyin: 'jǔxíng', english: 'to hold; to carry out' },
+      { simp: '流行', trad: '流行', pinyin: 'liúxíng', english: 'popular; fashionable' },
+      { simp: '用处', trad: '用處', pinyin: 'yòngchu', english: 'use; usefulness' },
+      { simp: '曾经', trad: '曾經', pinyin: 'céngjīng', english: 'once; once upon a time' },
+      { simp: '总是', trad: '總是', pinyin: 'zǒngshì', english: 'always' },
+      { simp: '表现', trad: '表現', pinyin: 'biǎoxiàn', english: 'performance; to show' },
+      { simp: '主张', trad: '主張', pinyin: 'zhǔzhāng', english: 'to advocate; opinion' },
+      { simp: '模仿', trad: '模仿', pinyin: 'mófǎng', english: 'to imitate' }
+    ];
+
+    const charPinyinData = [
+      { hanzi: '晨曆', correct: 'chénlì', options: ['chénlì', 'chénglì', 'cénlì'], explain: '晨曆 means calendar / almanac.' },
+      { hanzi: '專愁', correct: 'zhuānchóu', options: ['zhuānchóu', 'zuānchóu', 'zhuānzhòu'], explain: '專愁: zhuānchóu.' },
+      { hanzi: '長輩', correct: 'zhǎngbèi', options: ['chángbèi', 'zhǎngbèi', 'zhàngbēi'], explain: '長輩 is read zhǎngbèi.' },
+      { hanzi: '建議', correct: 'jiànyì', options: ['jiànyì', 'jiànyí', 'jìanyì'], explain: '建議 is jiànyì.' },
+      { hanzi: '普通', correct: 'pǔtōng', options: ['pǔtòng', 'pǔtōng', 'pūtōng'], explain: '普通 is pǔtōng.' },
+      { hanzi: '傳統', correct: 'chuántǒng', options: ['zhuàntǒng', 'chuántǒng', 'chuāntǒng'], explain: '傳統 is chuántǒng.' },
+      { hanzi: '心情', correct: 'xīnqíng', options: ['xīnqíng', 'xīngqíng', 'xīnqíngh'], explain: '心情 is xīnqíng.' },
+      { hanzi: '優秀', correct: 'yōuxiù', options: ['yòuxiù', 'yōuxiū', 'yōuxiù'], explain: '優秀 is yōuxiù.' },
+      { hanzi: '詩歌', correct: 'shīgē', options: ['shīgē', 'sīgē', 'shíge'], explain: '詩歌 is shīgē.' },
+      { hanzi: '種類', correct: 'zhǒnglèi', options: ['zhònglèi', 'zhǒnglèi', 'zǒnglèi'], explain: '種類 is zhǒnglèi.' },
+      { hanzi: '整天', correct: 'zhěngtiān', options: ['zhěntiān', 'zhěngtiān', 'zhèngtiān'], explain: '整天 is zhěngtiān.' },
+      { hanzi: '細心', correct: 'xìxīn', options: ['xìxīn', 'xīxīn', 'xìxīng'], explain: '細心 is xìxīn.' },
+      { hanzi: '驕傲', correct: 'jiāo’ào', options: ['jiāo’ào', 'jiào’ào', 'jiāoāo'], explain: '驕傲 is jiāo’ào.' },
+      { hanzi: '尤其', correct: 'yóuqí', options: ['yǒuqí', 'yóuqí', 'yóuqī'], explain: '尤其 is yóuqí.' },
+      { hanzi: '尊貴', correct: 'zūnguì', options: ['zūnguì', 'zhūnguì', 'zūngguì'], explain: '尊貴 is zūnguì.' },
+      { hanzi: '其中', correct: 'qízhōng', options: ['qízhōng', 'qǐzhōng', 'qízōng'], explain: '其中 is qízhōng.' },
+      { hanzi: '應該', correct: 'yīnggāi', options: ['yìnggāi', 'yīnggāi', 'yīngkāi'], explain: '應該 is yīnggāi.' },
+      { hanzi: '機會', correct: 'jīhuì', options: ['jǐhuì', 'jīhuí', 'jīhuì'], explain: '機會 is jīhuì.' },
+      { hanzi: '影響', correct: 'yǐngxiǎng', options: ['yǐngxiǎng', 'yíngxiǎng', 'yǐngxiàng'], explain: '影響 is yǐngxiǎng.' },
+      { hanzi: '模仿', correct: 'mófǎng', options: ['mófǎng', 'múfǎng', 'mófàng'], explain: '模仿 is mófǎng.' }
+    ];
+
+    const radicalData = [
+      {
+        name: '金 / 釒',
+        meaning: 'metal; gold',
+        examples: [
+          { label: '钟 / 鐘', pinyin: 'zhōng', english: 'clock; bell', example: '简：教室里有一个钟。／繁：教室裡有一個鐘。 / There is a clock in the classroom.' },
+          { label: '钱 / 錢', pinyin: 'qián', english: 'money', example: '简：我没有很多钱。／繁：我沒有很多錢。 / I do not have much money.' }
+        ]
+      },
+      {
+        name: '车 / 車',
+        meaning: 'vehicle; cart',
+        examples: [
+          { label: '辆 / 輛', pinyin: 'liàng', english: 'classifier for vehicles', example: '简：门口有一辆车。／繁：門口有一輛車。 / There is a car at the door.' },
+          { label: '转 / 轉', pinyin: 'zhuǎn', english: 'to turn', example: '简：请往右转。／繁：請往右轉。 / Please turn right.' }
+        ]
+      },
+      {
+        name: '耳 / 耳',
+        meaning: 'ear; listening',
+        examples: [
+          { label: '聽 / 聽', pinyin: 'tīng', english: 'to listen', example: '简：我喜欢听音乐。／繁：我喜歡聽音樂。 / I like listening to music.' },
+          { label: '取 / 取', pinyin: 'qǔ', english: 'to take; to get', example: '简：请去办公室取书。／繁：請去辦公室取書。 / Please go get the book from the office.' }
+        ]
+      },
+      {
+        name: '牛 / 牛',
+        meaning: 'cow; cattle',
+        examples: [
+          { label: '特 / 特', pinyin: 'tè', english: 'special', example: '简：今天有特别活动。／繁：今天有特別活動。 / There is a special activity today.' },
+          { label: '物 / 物', pinyin: 'wù', english: 'thing; object', example: '简：这个博物馆里有很多古物。／繁：這個博物館裡有很多古物。 / There are many old objects in this museum.' }
+        ]
+      },
+      {
+        name: '贝 / 貝',
+        meaning: 'shell; money; valuables',
+        examples: [
+          { label: '贵 / 貴', pinyin: 'guì', english: 'expensive; honorable', example: '简：这件衣服太贵了。／繁：這件衣服太貴了。 / This piece of clothing is too expensive.' },
+          { label: '员 / 員', pinyin: 'yuán', english: 'member; staff', example: '简：他是工作人员。／繁：他是工作人員。 / He is a staff member.' }
+        ]
+      },
+      {
+        name: '日 / 日',
+        meaning: 'sun; day; time',
+        examples: [
+          { label: '时 / 時', pinyin: 'shí', english: 'time', example: '简：现在是什么时候？／繁：現在是什麼時候？ / What time is it now?' },
+          { label: '明 / 明', pinyin: 'míng', english: 'bright; tomorrow', example: '简：明天我们要考试。／繁：明天我們要考試。 / We have an exam tomorrow.' }
+        ]
+      },
+      {
+        name: '犭 / 犭',
+        meaning: 'animal; dog-related',
+        examples: [
+          { label: '狗 / 狗', pinyin: 'gǒu', english: 'dog', example: '简：我家有一只狗。／繁：我家有一隻狗。 / My family has a dog.' },
+          { label: '猫 / 貓', pinyin: 'māo', english: 'cat', example: '简：那只猫很可爱。／繁：那隻貓很可愛。 / That cat is very cute.' }
+        ]
+      },
+      {
+        name: '竹 / 竹',
+        meaning: 'bamboo',
+        examples: [
+          { label: '笔 / 筆', pinyin: 'bǐ', english: 'pen', example: '简：我买了一支新笔。／繁：我買了一支新筆。 / I bought a new pen.' },
+          { label: '第 / 第', pinyin: 'dì', english: 'ordinal marker', example: '简：这是第一个问题。／繁：這是第一個問題。 / This is the first question.' }
+        ]
+      },
+      {
+        name: '衤 / 衤',
+        meaning: 'clothing',
+        examples: [
+          { label: '裤 / 褲', pinyin: 'kù', english: 'pants', example: '简：这条裤子很长。／繁：這條褲子很長。 / These pants are very long.' },
+          { label: '衣 / 衣', pinyin: 'yī', english: 'clothes', example: '简：今天我穿新衣服。／繁：今天我穿新衣服。 / I am wearing new clothes today.' }
+        ]
+      },
+      {
+        name: '冫 / 冫',
+        meaning: 'ice; cold',
+        examples: [
+          { label: '冷 / 冷', pinyin: 'lěng', english: 'cold', example: '简：今天很冷。／繁：今天很冷。 / It is cold today.' },
+          { label: '准 / 準', pinyin: 'zhǔn', english: 'accurate; to allow', example: '简：火车很准时。／繁：火車很準時。 / The train is very punctual.' }
+        ]
+      },
+      {
+        name: '纟 / 糹',
+        meaning: 'thread; silk; connection',
+        examples: [
+          { label: '结 / 結', pinyin: 'jié', english: 'to tie; knot; result', example: '简：我们来总结一下。／繁：我們來總結一下。 / Let’s sum up a little.' },
+          { label: '给 / 給', pinyin: 'gěi', english: 'to give', example: '简：请给我一杯茶。／繁：請給我一杯茶。 / Please give me a cup of tea.' }
+        ]
+      },
+      {
+        name: '刂 / 刂',
+        meaning: 'knife; cutting',
+        examples: [
+          { label: '利 / 利', pinyin: 'lì', english: 'sharp; benefit', example: '简：学习语言对你很有利。／繁：學習語言對你很有利。 / Learning a language is very good for you.' },
+          { label: '到 / 到', pinyin: 'dào', english: 'to arrive', example: '简：我们八点到学校。／繁：我們八點到學校。 / We arrive at school at eight.' }
+        ]
+      },
+      {
+        name: '攵 / 攵',
+        meaning: 'action; tapping; teaching-related in some characters',
+        examples: [
+          { label: '教 / 教', pinyin: 'jiāo / jiào', english: 'to teach; religion', example: '简：老师教我们中文。／繁：老師教我們中文。 / The teacher teaches us Chinese.' },
+          { label: '放 / 放', pinyin: 'fàng', english: 'to put; to release', example: '简：请把书放在桌子上。／繁：請把書放在桌子上。 / Please put the book on the table.' }
+        ]
+      }
+    ];
+
+    const grammarData = [
+      {
+        title: '什么地方都…… = 哪儿都…… / 谁……都……',
+        note: '重点：什么地方都 = 哪儿都',
+        simpExplain: '什么地方都……和哪儿都……在这里意思一样，都是 “everywhere”。谁……都……表示 “everyone / no matter who”。',
+        tradExplain: '什麼地方都……和哪兒都……在這裡意思一樣，都是 “everywhere”。誰……都……表示 “everyone / no matter who”。',
+        simpEx: ['这种衣服现在很流行，什么地方都可以看到。', '这种衣服现在哪儿都可以看到。', '这位老师很温柔，谁都喜欢她。'],
+        tradEx: ['這種衣服現在很流行，什麼地方都可以看到。', '這種衣服現在哪兒都可以看到。', '這位老師很溫柔，誰都喜歡她。'],
+        quiz: { question: '这种衣服现在很流行，_____ 都可以看到。', options: ['什么', '谁', '除了'], answer: 0, explain: '这里要表达 “everywhere”，所以用 “什么……都” 或 “哪儿都”。' }
+      },
+      {
+        title: '除了……也……',
+        simpExplain: '表示 “besides A, also B”。',
+        tradExplain: '表示 “besides A, also B”。',
+        simpEx: ['除了中文，他也学日文。', '除了茶，我也喜欢咖啡。'],
+        tradEx: ['除了中文，他也學日文。', '除了茶，我也喜歡咖啡。'],
+        quiz: { question: '_____ 流行音乐，她也喜欢古典音乐。', options: ['除了', '虽然', '不管'], answer: 0, explain: '“除了……也……”表示在A之外，还有B。' }
+      },
+      {
+        title: '受欢迎 / 受喜爱 / 受尊敬',
+        simpExplain: '表示 “be welcomed / loved / respected”。',
+        tradExplain: '表示 “be welcomed / loved / respected”。',
+        simpEx: ['这个地方很受欢迎。', '这位老师很受学生喜爱。', '孔子很受人尊敬。'],
+        tradEx: ['這個地方很受歡迎。', '這位老師很受學生喜愛。', '孔子很受人尊敬。'],
+        quiz: { question: '这位作家写了很多好书，所以很 ____。', options: ['受欢迎', '后悔', '流行着'], answer: 0, explain: '这里要表达 “popular / well received”。' }
+      },
+      {
+        title: '不管是谁 / 不管是什么……',
+        simpExplain: '表示 “no matter who / no matter what”。',
+        tradExplain: '表示 “no matter who / no matter what”。',
+        simpEx: ['不管是谁，都要讲信用。', '不管是什么问题，最后都可以解决。'],
+        tradEx: ['不管是誰，都要講信用。', '不管是什麼問題，最後都可以解決。'],
+        quiz: { question: '_____，我们都应该认真想办法。', options: ['不管是什么问题', '除了这个问题', '连这个问题'], answer: 0, explain: '这里要表达 “no matter what problem”。' }
+      },
+      {
+        title: '当作 / 當作',
+        simpExplain: '表示 “to treat / regard A as B”。',
+        tradExplain: '表示 “to treat / regard A as B”。',
+        simpEx: ['他把中国当作第二个家。', '茶一开始被当作药来用。'],
+        tradEx: ['他把中國當作第二個家。', '茶一開始被當作藥來用。'],
+        quiz: { question: '在很早的时候，茶被 _____ 药来用。', options: ['当作', '影响', '举行'], answer: 0, explain: '“当作”表示把A看成B。' }
+      },
+      {
+        title: '虽然……但…… / 雖然……但……',
+        simpExplain: '表示让步和转折：although..., but / yet...',
+        tradExplain: '表示讓步和轉折：although..., but / yet...',
+        simpEx: ['虽然生活很穷苦，但他们互相帮助。', '虽然这件事很难，但他没有后悔。'],
+        tradEx: ['雖然生活很窮苦，但他們互相幫助。', '雖然這件事很難，但他沒有後悔。'],
+        quiz: { question: '_____ 他很忙，_____ 他还是天天读书。', options: ['除了 / 也', '虽然 / 但', '不管 / 都'], answer: 1, explain: '前后是转折关系，所以用“虽然……但……”。' }
+      },
+      {
+        title: '连……都…… / 連……都……',
+        simpExplain: '表示 “even...”，强调出乎意料。',
+        tradExplain: '表示 “even...”，強調出乎意料。',
+        simpEx: ['这首歌很流行，连小孩子都会唱。', '他太忙了，连吃饭的时间都没有。'],
+        tradEx: ['這首歌很流行，連小孩子都會唱。', '他太忙了，連吃飯的時間都沒有。'],
+        quiz: { question: '他太忙了，_____ 周末都不能好好休息。', options: ['连', '谁', '对'], answer: 0, explain: '“连……都……”用来强调“even weekends”。' }
+      },
+      {
+        title: '对……有兴趣 / 對……有興趣',
+        simpExplain: '表示 someone is interested in something.',
+        tradExplain: '表示 someone is interested in something.',
+        simpEx: ['我对中国历史很有兴趣。', '她对流行音乐没有什么兴趣。'],
+        tradEx: ['我對中國歷史很有興趣。', '她對流行音樂沒有什麼興趣。'],
+        quiz: { question: '他 _____ 中国文化很有兴趣。', options: ['对', '把', '跟'], answer: 0, explain: '固定搭配是“对……有兴趣”。' }
+      },
+      {
+        title: '不但……也…… / 不但……也……',
+        simpExplain: '表示 “not only..., but also...”。',
+        tradExplain: '表示 “not only..., but also...”。',
+        simpEx: ['他不但会唱歌，也会画画。', '这个地方不但风景漂亮，也很安静。'],
+        tradEx: ['他不但會唱歌，也會畫畫。', '這個地方不但風景漂亮，也很安靜。'],
+        quiz: { question: '这本书不但有意思，_____ 很有用。', options: ['都', '也', '可是'], answer: 1, explain: '固定搭配是“不但……也……”。' }
+      },
+      {
+        title: '对……有用 / 有用处',
+        simpExplain: '可以用来表达 usefulness。',
+        tradExplain: '可以用來表達 usefulness。',
+        simpEx: ['这个办法很有用。', '学中文对我以后很有用处。'],
+        tradEx: ['這個辦法很有用。', '學中文對我以後很有用處。'],
+        quiz: { question: '这个建议对我很有 ____。', options: ['用处', '举行', '总是'], answer: 0, explain: '“有用处”表示 useful.' }
+      }
+    ];
+
+    const vocabGrid = document.getElementById('vocabGrid');
+    const charPinyinGrid = document.getElementById('charPinyinGrid');
+    const radicalGrid = document.getElementById('radicalGrid');
+    const grammarGrid = document.getElementById('grammarGrid');
+
+    function setupCanvas(canvas, clearBtn) {
+      const ctx = canvas.getContext('2d');
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#8b3d2e';
+      let drawing = false;
+      let rect = null;
+
+      function getPos(e) {
+        rect = rect || canvas.getBoundingClientRect();
+        if (e.touches && e.touches[0]) {
+          return {
+            x: (e.touches[0].clientX - rect.left) * (canvas.width / rect.width),
+            y: (e.touches[0].clientY - rect.top) * (canvas.height / rect.height)
+          };
+        }
+        return {
+          x: (e.clientX - rect.left) * (canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      function start(e) {
+        drawing = true;
+        rect = canvas.getBoundingClientRect();
+        const { x, y } = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      function move(e) {
+        if (!drawing) return;
+        const { x, y } = getPos(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+
+      function end() {
+        drawing = false;
+        ctx.closePath();
+      }
+
+      canvas.addEventListener('pointerdown', start);
+      canvas.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', end);
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, { passive: false });
+      canvas.addEventListener('touchend', end);
+      clearBtn.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+    }
+
+    function buildHanziTargets(word, prefix) {
+      return word.split('').map((ch, i) => `
+        <div class="hw-char-cell">
+          <div class="hanzi-target" id="${prefix}-${i}" data-char="${ch}"></div>
+        </div>
+      `).join('');
+    }
+
+    function initWriterLoop(root) {
+      if (!window.HanziWriter || root.dataset.hwReady === '1') return;
+      root.dataset.hwReady = '1';
+      const targets = Array.from(root.querySelectorAll('.hanzi-target'));
+      const writers = targets.map((el) => HanziWriter.create(el, el.dataset.char, {
+        width: 76,
+        height: 76,
+        padding: 6,
+        showOutline: true,
+        showCharacter: false,
+        strokeAnimationSpeed: 1,
+        delayBetweenStrokes: 120,
+        outlineColor: '#e6d7ca',
+        strokeColor: '#8b3d2e',
+        drawingColor: '#8b3d2e',
+        renderer: 'svg'
+      }));
+
+      async function playLoop() {
+        while (document.body.contains(root)) {
+          for (const writer of writers) {
+            writer.hideCharacter();
+            writer.showOutline();
+          }
+          for (const writer of writers) {
+            try {
+              await writer.animateCharacter();
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+      playLoop();
+    }
+
+    function createVocabCard(item, index) {
+      const card = document.createElement('article');
+      card.className = 'card vocab-card';
+      card.dataset.search = `${item.simp} ${item.trad} ${item.pinyin} ${item.english}`.toLowerCase();
+      card.innerHTML = `
+        <div class="pill">Word ${index + 1}</div>
+        <div class="pinyin">${item.pinyin}</div>
+        <div class="english">${item.english}</div>
+        <div class="toggle-row">
+          <button class="btn reveal-btn">显示答案 Show Chinese</button>
+          <button class="btn stroke-btn">笔顺动画 Stroke Order</button>
+        </div>
+        <div class="answer">
+          <div class="char-row">
+            <div class="char-box"><span class="label">简体 Simplified</span><div class="char">${item.simp}</div></div>
+            <div class="char-box"><span class="label">繁体 Traditional</span><div class="char">${item.trad}</div></div>
+          </div>
+        </div>
+        <div class="stroke-panel">
+          <div class="small" style="margin-bottom:10px;">笔顺动画 Stroke-order animation</div>
+          <div class="hw-word-grid">
+            <div class="hw-word-box">
+              <div class="hw-word-label">简体 Simplified</div>
+              <div class="hw-char-row">${buildHanziTargets(item.simp, `simp-${index}`)}</div>
+            </div>
+            <div class="hw-word-box">
+              <div class="hw-word-label">繁体 Traditional</div>
+              <div class="hw-char-row">${buildHanziTargets(item.trad, `trad-${index}`)}</div>
+            </div>
+          </div>
+          <div class="small" style="margin: 0 0 8px;">手写练习 Handwriting practice</div>
+          <div class="canvas-wrap"><canvas width="360" height="240"></canvas></div>
+          <div class="write-tools" style="margin-top:10px;"><button class="btn clear-canvas">清空 Clear</button></div>
+        </div>
+      `;
+
+      const revealBtn = card.querySelector('.reveal-btn');
+      const strokeBtn = card.querySelector('.stroke-btn');
+      const answer = card.querySelector('.answer');
+      const panel = card.querySelector('.stroke-panel');
+      const canvas = card.querySelector('canvas');
+      const clearBtn = card.querySelector('.clear-canvas');
+
+      revealBtn.addEventListener('click', () => answer.classList.toggle('show'));
+      strokeBtn.addEventListener('click', () => {
+        panel.classList.toggle('show');
+        if (panel.classList.contains('show')) initWriterLoop(panel);
+      });
+      setupCanvas(canvas, clearBtn);
+      return card;
+    }
+
+    function createCharPinyinCard(item, index) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      const qName = `char-pinyin-${index}`;
+      card.innerHTML = `
+        <div class="pill">Pinyin ${index + 1}</div>
+        <div class="char" style="margin-bottom:8px;">${item.hanzi}</div>
+        <div class="quiz">
+          <div class="quiz-question"><strong>Choose the correct pinyin:</strong></div>
+          <div class="quiz-options">
+            ${item.options.map((opt, i) => `
+              <label class="option">
+                <input type="radio" name="${qName}" value="${opt}">
+                ${String.fromCharCode(65 + i)}. ${opt}
+              </label>
+            `).join('')}
+          </div>
+          <button class="btn check-char-pinyin" data-name="${qName}" data-answer="${item.correct}" data-explain="${item.explain}">检查答案 Check Answer</button>
+          <div class="feedback"></div>
+        </div>
+      `;
+      return card;
+    }
+
+    function createRadicalCard(item) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="radical-badge">${item.name}</div>
+        <h3>${item.meaning}</h3>
+        <div class="char-cloud">
+          ${item.examples.map(ex => `
+            <button class="char-chip" data-pinyin="${ex.pinyin}" data-english="${ex.english}" data-example="${ex.example}">
+              ${ex.label}<span class="tooltip"></span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+      return card;
+    }
+
+    function createGrammarCard(item, index) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      const qName = `grammar-${index}`;
+      card.innerHTML = `
+        <div class="pill">Pattern ${index + 1}</div>
+        <h3>${item.title}</h3>
+        ${item.note ? `<div class="equal-note">${item.note}</div>` : ''}
+        <div class="lang-block">
+          <div class="lang-box">
+            <h4>简体 Simplified</h4>
+            <p>${item.simpExplain}</p>
+            <ul>${item.simpEx.map(x => `<li>${x}</li>`).join('')}</ul>
+          </div>
+          <div class="lang-box">
+            <h4>繁體 Traditional</h4>
+            <p>${item.tradExplain}</p>
+            <ul>${item.tradEx.map(x => `<li>${x}</li>`).join('')}</ul>
+          </div>
+        </div>
+        <div class="quiz">
+          <div class="quiz-question"><strong>选择题 Multiple Choice:</strong> ${item.quiz.question}</div>
+          <div class="quiz-options">
+            ${item.quiz.options.map((opt, i) => `
+              <label class="option">
+                <input type="radio" name="${qName}" value="${i}">
+                ${String.fromCharCode(65 + i)}. ${opt}
+              </label>
+            `).join('')}
+          </div>
+          <button class="btn check-grammar" data-name="${qName}" data-answer="${item.quiz.answer}" data-explain="${item.quiz.explain}">检查答案 Check Answer</button>
+          <div class="feedback"></div>
+        </div>
+      `;
+      return card;
+    }
+
+    vocabData.forEach((item, index) => vocabGrid.appendChild(createVocabCard(item, index)));
+    charPinyinData.forEach((item, index) => charPinyinGrid.appendChild(createCharPinyinCard(item, index)));
+    radicalData.forEach(item => radicalGrid.appendChild(createRadicalCard(item)));
+    grammarData.forEach((item, index) => grammarGrid.appendChild(createGrammarCard(item, index)));
+
+    document.getElementById('vocabSearch').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.vocab-card').forEach(card => {
+        card.style.display = card.dataset.search.includes(q) ? '' : 'none';
+      });
+    });
+
+    document.getElementById('showAllVocab').addEventListener('click', () => {
+      document.querySelectorAll('.vocab-card .answer').forEach(el => el.classList.add('show'));
+    });
+    document.getElementById('hideAllVocab').addEventListener('click', () => {
+      document.querySelectorAll('.vocab-card .answer').forEach(el => el.classList.remove('show'));
+    });
+
+    document.querySelectorAll('.check-char-pinyin').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        const answer = btn.dataset.answer;
+        const explain = btn.dataset.explain;
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        const feedback = btn.nextElementSibling;
+        feedback.classList.add('show');
+        if (!checked) {
+          feedback.className = 'feedback show bad';
+          feedback.textContent = 'Please choose an answer first.';
+          return;
+        }
+        if (checked.value === answer) {
+          feedback.className = 'feedback show ok';
+          feedback.textContent = `Correct. ${explain}`;
+        } else {
+          feedback.className = 'feedback show bad';
+          feedback.textContent = `Not quite. ${explain}`;
+        }
+      });
+    });
+
+    document.querySelectorAll('.check-grammar').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        const answer = Number(btn.dataset.answer);
+        const explain = btn.dataset.explain;
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        const feedback = btn.nextElementSibling;
+        feedback.classList.add('show');
+        if (!checked) {
+          feedback.className = 'feedback show bad';
+          feedback.textContent = 'Please choose an answer first.';
+          return;
+        }
+        if (Number(checked.value) === answer) {
+          feedback.className = 'feedback show ok';
+          feedback.textContent = `Correct. ${explain}`;
+        } else {
+          feedback.className = 'feedback show bad';
+          feedback.textContent = `Not quite. ${explain}`;
+        }
+      });
+    });
+
+    function closeAllTooltips(except = null) {
+      document.querySelectorAll('.tooltip').forEach(tt => {
+        if (tt !== except) tt.classList.remove('show');
+      });
+    }
+
+    document.querySelectorAll('.char-chip').forEach(chip => {
+      const tt = chip.querySelector('.tooltip');
+      tt.innerHTML = `
+        <div class="tt-pinyin">${chip.dataset.pinyin}</div>
+        <div><strong>English:</strong> ${chip.dataset.english}</div>
+        <div style="margin-top:6px;"><strong>Example:</strong> ${chip.dataset.example}</div>
+      `;
+      const show = () => { closeAllTooltips(tt); tt.classList.add('show'); };
+      const hide = () => tt.classList.remove('show');
+      chip.addEventListener('mouseenter', show);
+      chip.addEventListener('mouseleave', hide);
+      chip.addEventListener('focus', show);
+      chip.addEventListener('blur', hide);
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = tt.classList.contains('show');
+        closeAllTooltips();
+        if (!open) tt.classList.add('show');
+      });
+    });
+
+    document.addEventListener('click', () => closeAllTooltips());
+  </script>
+</body>
+</html>
