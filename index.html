@@ -423,7 +423,7 @@
         <div class="section-head">
           <div>
             <h2>1. 词汇复习 Vocabulary Review</h2>
-            <p>先看拼音和英文，自己回想汉字。点击后显示正确的简体和繁体。词汇部分保留笔顺动画和手写练习。</p>
+            <p>词汇部分现在按拼音字母顺序排列。先看拼音和英文，自己回想汉字。点击后显示正确的简体和繁体。词汇部分保留笔顺动画和手写练习。</p>
           </div>
         </div>
 
@@ -442,7 +442,7 @@
         <div class="section-head">
           <div>
             <h2>2. 给汉字选拼音 Choose the Correct Pinyin</h2>
-            <p>看汉字，选择正确的带声调拼音。题目包含你给的总复习词汇，也加入了一些新词。</p>
+            <p>看汉字，选择正确的带声调拼音。顺序也重新调整过了；如果简体和繁体不一样，就用斜线同时显示两个版本。</p>
           </div>
         </div>
         <div class="grid char-grid" id="charPinyinGrid"></div>
@@ -466,7 +466,7 @@
         <div class="section-head">
           <div>
             <h2>4. 语法复习 Grammar Review</h2>
-            <p>保留简体和繁体说明，并用选择题检查理解。也加入了“对……有兴趣”和“不但……也……”。</p>
+            <p>语法部分按你给的文件重新整理，按照 Lesson 11–18 一课一课来复习。保留简体和繁体说明，并用选择题检查理解。</p>
           </div>
         </div>
         <div class="grid grammar-grid" id="grammarGrid"></div>
@@ -537,26 +537,23 @@
     ];
 
     const charPinyinData = [
-      { hanzi: '晨曆', correct: 'chénlì', options: ['chénlì', 'chénglì', 'cénlì'], explain: '晨曆 means calendar / almanac.' },
-      { hanzi: '專愁', correct: 'zhuānchóu', options: ['zhuānchóu', 'zuānchóu', 'zhuānzhòu'], explain: '專愁: zhuānchóu.' },
-      { hanzi: '長輩', correct: 'zhǎngbèi', options: ['chángbèi', 'zhǎngbèi', 'zhàngbēi'], explain: '長輩 is read zhǎngbèi.' },
-      { hanzi: '建議', correct: 'jiànyì', options: ['jiànyì', 'jiànyí', 'jìanyì'], explain: '建議 is jiànyì.' },
-      { hanzi: '普通', correct: 'pǔtōng', options: ['pǔtòng', 'pǔtōng', 'pūtōng'], explain: '普通 is pǔtōng.' },
-      { hanzi: '傳統', correct: 'chuántǒng', options: ['zhuàntǒng', 'chuántǒng', 'chuāntǒng'], explain: '傳統 is chuántǒng.' },
-      { hanzi: '心情', correct: 'xīnqíng', options: ['xīnqíng', 'xīngqíng', 'xīnqíngh'], explain: '心情 is xīnqíng.' },
-      { hanzi: '優秀', correct: 'yōuxiù', options: ['yòuxiù', 'yōuxiū', 'yōuxiù'], explain: '優秀 is yōuxiù.' },
-      { hanzi: '詩歌', correct: 'shīgē', options: ['shīgē', 'sīgē', 'shíge'], explain: '詩歌 is shīgē.' },
-      { hanzi: '種類', correct: 'zhǒnglèi', options: ['zhònglèi', 'zhǒnglèi', 'zǒnglèi'], explain: '種類 is zhǒnglèi.' },
-      { hanzi: '整天', correct: 'zhěngtiān', options: ['zhěntiān', 'zhěngtiān', 'zhèngtiān'], explain: '整天 is zhěngtiān.' },
-      { hanzi: '細心', correct: 'xìxīn', options: ['xìxīn', 'xīxīn', 'xìxīng'], explain: '細心 is xìxīn.' },
-      { hanzi: '驕傲', correct: 'jiāo’ào', options: ['jiāo’ào', 'jiào’ào', 'jiāoāo'], explain: '驕傲 is jiāo’ào.' },
-      { hanzi: '尤其', correct: 'yóuqí', options: ['yǒuqí', 'yóuqí', 'yóuqī'], explain: '尤其 is yóuqí.' },
-      { hanzi: '尊貴', correct: 'zūnguì', options: ['zūnguì', 'zhūnguì', 'zūngguì'], explain: '尊貴 is zūnguì.' },
-      { hanzi: '其中', correct: 'qízhōng', options: ['qízhōng', 'qǐzhōng', 'qízōng'], explain: '其中 is qízhōng.' },
-      { hanzi: '應該', correct: 'yīnggāi', options: ['yìnggāi', 'yīnggāi', 'yīngkāi'], explain: '應該 is yīnggāi.' },
-      { hanzi: '機會', correct: 'jīhuì', options: ['jǐhuì', 'jīhuí', 'jīhuì'], explain: '機會 is jīhuì.' },
-      { hanzi: '影響', correct: 'yǐngxiǎng', options: ['yǐngxiǎng', 'yíngxiǎng', 'yǐngxiàng'], explain: '影響 is yǐngxiǎng.' },
-      { hanzi: '模仿', correct: 'mófǎng', options: ['mófǎng', 'múfǎng', 'mófàng'], explain: '模仿 is mófǎng.' }
+      { hanzi: '驕傲 / 骄傲', correct: 'jiāo’ào', options: ['jiāo’ào', 'jiào’ào', 'jiāoāo'], explain: '驕傲 / 骄傲 is jiāo’ào.' },
+      { hanzi: '建議 / 建议', correct: 'jiànyì', options: ['jiànyì', 'jiànyí', 'jìanyì'], explain: '建議 / 建议 is jiànyì.' },
+      { hanzi: '機會 / 机会', correct: 'jīhuì', options: ['jǐhuì', 'jīhuí', 'jīhuì'], explain: '機會 / 机会 is jīhuì.' },
+      { hanzi: '模仿 / 模仿', correct: 'mófǎng', options: ['mófǎng', 'múfǎng', 'mófàng'], explain: '模仿 is mófǎng.' },
+      { hanzi: '普通 / 普通', correct: 'pǔtōng', options: ['pǔtòng', 'pǔtōng', 'pūtōng'], explain: '普通 is pǔtōng.' },
+      { hanzi: '詩歌 / 诗歌', correct: 'shīgē', options: ['shīgē', 'sīgē', 'shíge'], explain: '詩歌 / 诗歌 is shīgē.' },
+      { hanzi: '團聚 / 团聚', correct: 'tuánjù', options: ['tuánjù', 'tuánjǜ', 'tuǎnjù'], explain: '團聚 / 团聚 is tuánjù.' },
+      { hanzi: '細心 / 细心', correct: 'xìxīn', options: ['xìxīn', 'xīxīn', 'xìxīng'], explain: '細心 / 细心 is xìxīn.' },
+      { hanzi: '心情 / 心情', correct: 'xīnqíng', options: ['xīnqíng', 'xīngqíng', 'xīnqíngh'], explain: '心情 is xīnqíng.' },
+      { hanzi: '影響 / 影响', correct: 'yǐngxiǎng', options: ['yǐngxiǎng', 'yíngxiǎng', 'yǐngxiàng'], explain: '影響 / 影响 is yǐngxiǎng.' },
+      { hanzi: '尤其 / 尤其', correct: 'yóuqí', options: ['yǒuqí', 'yóuqí', 'yóuqī'], explain: '尤其 is yóuqí.' },
+      { hanzi: '優秀 / 优秀', correct: 'yōuxiù', options: ['yòuxiù', 'yōuxiū', 'yōuxiù'], explain: '優秀 / 优秀 is yōuxiù.' },
+      { hanzi: '尊貴 / 尊贵', correct: 'zūnguì', options: ['zūnguì', 'zhūnguì', 'zūngguì'], explain: '尊貴 / 尊贵 is zūnguì.' },
+      { hanzi: '傳統 / 传统', correct: 'chuántǒng', options: ['zhuàntǒng', 'chuántǒng', 'chuāntǒng'], explain: '傳統 / 传统 is chuántǒng.' },
+      { hanzi: '長輩 / 长辈', correct: 'zhǎngbèi', options: ['chángbèi', 'zhǎngbèi', 'zhàngbēi'], explain: '長輩 / 长辈 is zhǎngbèi.' },
+      { hanzi: '整天 / 整天', correct: 'zhěngtiān', options: ['zhěntiān', 'zhěngtiān', 'zhèngtiān'], explain: '整天 is zhěngtiān.' },
+      { hanzi: '種類 / 种类', correct: 'zhǒnglèi', options: ['zhònglèi', 'zhǒnglèi', 'zǒnglèi'], explain: '種類 / 种类 is zhǒnglèi.' }
     ];
 
     const radicalData = [
@@ -668,85 +665,101 @@
 
     const grammarData = [
       {
-        title: '什么地方都…… = 哪儿都…… / 谁……都……',
+        title: 'Lesson 11 — 被 Construction',
+        simpExplain: '重点复习被字句：A 被 B + V。也注意让 / 叫 / 给在口语里的相关用法。',
+        tradExplain: '重點複習被字句：A 被 B + V。也注意讓 / 叫 / 給在口語裡的相關用法。',
+        simpEx: ['他养的老鼠被那只猫吃了。', '昨天我们选功夫最好的人，没想到小张也被选上了。'],
+        tradEx: ['他養的老鼠被那隻貓吃了。', '昨天我們選功夫最好的人，沒想到小張也被選上了。'],
+        quiz: { question: '你的茶杯在这儿，没 ____ 他拿走。', options: ['被', '比', '着'], answer: 0, explain: '这里复习被字句，用“被”。' }
+      },
+      {
+        title: 'Lesson 12 — V着',
+        simpExplain: 'V着可以表示状态持续，也可以表示一边做一个动作，一边做另一个动作。',
+        tradExplain: 'V著可以表示狀態持續，也可以表示一邊做一個動作，一邊做另一個動作。',
+        simpEx: ['他在门那儿站着。', '他常常看着电视吃饭。'],
+        tradEx: ['他在門那兒站著。', '他常常看著電視吃飯。'],
+        quiz: { question: '门那儿站 ____ 一个人。', options: ['着', '满', '比'], answer: 0, explain: 'Place + V着 + Noun 是 Lesson 12 的重点。' }
+      },
+      {
+        title: 'Lesson 12 — V满 / 滿',
+        simpExplain: 'V满表示某个地方装满、挤满、放满了东西或人。',
+        tradExplain: 'V滿表示某個地方裝滿、擠滿、放滿了東西或人。',
+        simpEx: ['那个房间里放满了东西，我们走不进去。', '车上挤满了赶着回家过年的人。'],
+        tradEx: ['那個房間裡放滿了東西，我們走不進去。', '車上擠滿了趕著回家過年的人。'],
+        quiz: { question: '春节时，墙上 ____ 满了各种年画。', options: ['挂', '写', '听'], answer: 0, explain: 'Lesson 12 复习的是 V满 结构。' }
+      },
+      {
+        title: 'Lesson 12 — 正在 / 在 / 呢',
+        simpExplain: '正在 / 正 / 在 可以表示动作正在进行，句末常常加 呢。',
+        tradExplain: '正在 / 正 / 在 可以表示動作正在進行，句末常常加 呢。',
+        simpEx: ['你在做什么呢？', '我正在看书呢。'],
+        tradEx: ['你在做什麼呢？', '我正在看書呢。'],
+        quiz: { question: '他现在正在睡觉，别叫他。这里“正在”表示：', options: ['过去的动作', '正在进行的动作', '比较'], answer: 1, explain: '“正在”表示 the action is in progress.' }
+      },
+      {
+        title: 'Lesson 13 — 使 / 叫 / 让',
+        simpExplain: '使、叫、让都可以表示“使某人做某事 / 让某人怎么样”。使的宾语可以是人或事物，叫和让的宾语一般是人。',
+        tradExplain: '使、叫、讓都可以表示「使某人做某事 / 讓某人怎麼樣」。使的賓語可以是人或事物，叫和讓的賓語一般是人。',
+        simpEx: ['最近的天气使人很不舒服。', '你刚才说的话叫我很伤心。'],
+        tradEx: ['最近的天氣使人很不舒服。', '你剛才說的話叫我很傷心。'],
+        quiz: { question: '这种话 ____ 人听了很高兴。', options: ['使', '比', '被'], answer: 0, explain: 'Lesson 13 复习 causative verbs。' }
+      },
+      {
+        title: 'Lesson 14 — V得 Clause',
+        simpExplain: 'V得后面可以接补语或小句，说明动作进行的程度或结果。',
+        tradExplain: 'V得後面可以接補語或小句，說明動作進行的程度或結果。',
+        simpEx: ['他写字写得快极了。', '现在我肚子饿得话都说不出来了。'],
+        tradEx: ['他寫字寫得快極了。', '現在我肚子餓得話都說不出來了。'],
+        quiz: { question: '他笑得 ____。', options: ['很开心', '被选上了', '比他高'], answer: 0, explain: 'V得后面要接补语或小句。' }
+      },
+      {
+        title: 'Lesson 15 — Comparative Sentence',
+        simpExplain: '比较句重点包括：A 比 B + SV；A 没有 B + SV；A 比 B 更 + SV。',
+        tradExplain: '比較句重點包括：A 比 B + SV；A 沒有 B + SV；A 比 B 更 + SV。',
+        simpEx: ['北京的冬天比纽约的冬天冷。', '纽约的冬天没有北京的冬天冷。', '中文比英文难，日文比中文更难。'],
+        tradEx: ['北京的冬天比紐約的冬天冷。', '紐約的冬天沒有北京的冬天冷。', '中文比英文難，日文比中文更難。'],
+        quiz: { question: '小李很高，小张 ____。', options: ['比小李更高', '被小李高', '对小李有兴趣'], answer: 0, explain: 'Lesson 15 复习比较句。' }
+      },
+      {
+        title: 'Lesson 16 — Question Words as Indefinite Pronouns',
         note: '重点：什么地方都 = 哪儿都',
-        simpExplain: '什么地方都……和哪儿都……在这里意思一样，都是 “everywhere”。谁……都……表示 “everyone / no matter who”。',
-        tradExplain: '什麼地方都……和哪兒都……在這裡意思一樣，都是 “everywhere”。誰……都……表示 “everyone / no matter who”。',
-        simpEx: ['这种衣服现在很流行，什么地方都可以看到。', '这种衣服现在哪儿都可以看到。', '这位老师很温柔，谁都喜欢她。'],
-        tradEx: ['這種衣服現在很流行，什麼地方都可以看到。', '這種衣服現在哪兒都可以看到。', '這位老師很溫柔，誰都喜歡她。'],
-        quiz: { question: '这种衣服现在很流行，_____ 都可以看到。', options: ['什么', '谁', '除了'], answer: 0, explain: '这里要表达 “everywhere”，所以用 “什么……都” 或 “哪儿都”。' }
+        simpExplain: '疑问词加 都 / 也 可以表示泛指，如 谁都、哪儿都、什么都。',
+        tradExplain: '疑問詞加 都 / 也 可以表示泛指，如 誰都、哪兒都、什麼都。',
+        simpEx: ['我们谁都不认识他。', '哪儿都没有这种电脑。', '我什么电影都爱看。'],
+        tradEx: ['我們誰都不認識他。', '哪兒都沒有這種電腦。', '我什麼電影都愛看。'],
+        quiz: { question: '电脑很能干，_____ 事都会做。', options: ['什么', '谁', '哪儿'], answer: 0, explain: '疑问词加都，表示泛指。' }
       },
       {
-        title: '除了……也……',
-        simpExplain: '表示 “besides A, also B”。',
-        tradExplain: '表示 “besides A, also B”。',
-        simpEx: ['除了中文，他也学日文。', '除了茶，我也喜欢咖啡。'],
-        tradEx: ['除了中文，他也學日文。', '除了茶，我也喜歡咖啡。'],
-        quiz: { question: '_____ 流行音乐，她也喜欢古典音乐。', options: ['除了', '虽然', '不管'], answer: 0, explain: '“除了……也……”表示在A之外，还有B。' }
+        title: 'Lesson 17 — Topic-chain and Noun Phrase Deletion',
+        simpExplain: '汉语里前面已经说过的名词，后面常常可以省略，形成 topic chain。',
+        tradExplain: '漢語裡前面已經說過的名詞，後面常常可以省略，形成 topic chain。',
+        simpEx: ['那棵树，花小，叶子大，很不好看，所以我不喜欢。', '她整天想念爸爸，难过得不吃饭也不睡觉，不久就病倒了。'],
+        tradEx: ['那棵樹，花小，葉子大，很不好看，所以我不喜歡。', '她整天想念爸爸，難過得不吃飯也不睡覺，不久就病倒了。'],
+        quiz: { question: '那棵树，___花小，___叶子大，___很不好看，所以我不喜欢___。这些空格主要体现：', options: ['被字句', '名词省略和 topic chain', '比较句'], answer: 1, explain: '这是 Lesson 17 的 topic-chain and noun phrase deletion。' }
       },
       {
-        title: '受欢迎 / 受喜爱 / 受尊敬',
-        simpExplain: '表示 “be welcomed / loved / respected”。',
-        tradExplain: '表示 “be welcomed / loved / respected”。',
-        simpEx: ['这个地方很受欢迎。', '这位老师很受学生喜爱。', '孔子很受人尊敬。'],
-        tradEx: ['這個地方很受歡迎。', '這位老師很受學生喜愛。', '孔子很受人尊敬。'],
-        quiz: { question: '这位作家写了很多好书，所以很 ____。', options: ['受欢迎', '后悔', '流行着'], answer: 0, explain: '这里要表达 “popular / well received”。' }
+        title: 'Lesson 17 — V + QW + 就 + V + QW / 好像……似的',
+        simpExplain: '这一课还复习 V+什么/谁/哪儿 + 就 + V+什么/谁/哪儿，以及 好像……似的。',
+        tradExplain: '這一課還複習 V+什麼/誰/哪兒 + 就 + V+什麼/誰/哪兒，以及 好像……似的。',
+        simpEx: ['你们做什么，我就吃什么。', '他去哪儿我就去哪儿。', '穿上像要掉下来似的。'],
+        tradEx: ['你們做什麼，我就吃什麼。', '他去哪兒我就去哪兒。', '穿上像要掉下來似的。'],
+        quiz: { question: '你们做什么，我就吃什么。这个结构是：', options: ['V+QW+就+V+QW', '虽然……但……', 'A比B更……'], answer: 0, explain: '这是 Lesson 17 的重点句型。' }
       },
       {
-        title: '不管是谁 / 不管是什么……',
-        simpExplain: '表示 “no matter who / no matter what”。',
-        tradExplain: '表示 “no matter who / no matter what”。',
-        simpEx: ['不管是谁，都要讲信用。', '不管是什么问题，最后都可以解决。'],
-        tradEx: ['不管是誰，都要講信用。', '不管是什麼問題，最後都可以解決。'],
-        quiz: { question: '_____，我们都应该认真想办法。', options: ['不管是什么问题', '除了这个问题', '连这个问题'], answer: 0, explain: '这里要表达 “no matter what problem”。' }
+        title: 'Lesson 18 — Idiomatic Expressions and Classical Usage',
+        simpExplain: 'Lesson 18 复习成语和现代汉语中的文言词语，比如 差不多、画蛇添足、对牛弹琴、胸有成竹，以及 於 / 却 / 以及 / 曾经 / 从此 / 称为 / 据说 / 与。',
+        tradExplain: 'Lesson 18 複習成語和現代漢語中的文言詞語，比如 差不多、畫蛇添足、對牛彈琴、胸有成竹，以及 於 / 卻 / 以及 / 曾經 / 從此 / 稱為 / 據說 / 與。',
+        simpEx: ['我从来没听说过关于孟姜女的故事。', '他是美国人，却不喜欢美国音乐。', '这课以及上一课的语法我们下次再讨论吧。'],
+        tradEx: ['我從來沒聽說過關於孟姜女的故事。', '他是美國人，卻不喜歡美國音樂。', '這課以及上一課的語法我們下次再討論吧。'],
+        quiz: { question: '他曾经学过画画，可是没有学好。这里“曾经”表示：', options: ['future', 'once in the past', 'comparison'], answer: 1, explain: '“曾经”表示 once in the past。' }
       },
       {
-        title: '当作 / 當作',
-        simpExplain: '表示 “to treat / regard A as B”。',
-        tradExplain: '表示 “to treat / regard A as B”。',
-        simpEx: ['他把中国当作第二个家。', '茶一开始被当作药来用。'],
-        tradEx: ['他把中國當作第二個家。', '茶一開始被當作藥來用。'],
-        quiz: { question: '在很早的时候，茶被 _____ 药来用。', options: ['当作', '影响', '举行'], answer: 0, explain: '“当作”表示把A看成B。' }
-      },
-      {
-        title: '虽然……但…… / 雖然……但……',
-        simpExplain: '表示让步和转折：although..., but / yet...',
-        tradExplain: '表示讓步和轉折：although..., but / yet...',
-        simpEx: ['虽然生活很穷苦，但他们互相帮助。', '虽然这件事很难，但他没有后悔。'],
-        tradEx: ['雖然生活很窮苦，但他們互相幫助。', '雖然這件事很難，但他沒有後悔。'],
-        quiz: { question: '_____ 他很忙，_____ 他还是天天读书。', options: ['除了 / 也', '虽然 / 但', '不管 / 都'], answer: 1, explain: '前后是转折关系，所以用“虽然……但……”。' }
-      },
-      {
-        title: '连……都…… / 連……都……',
-        simpExplain: '表示 “even...”，强调出乎意料。',
-        tradExplain: '表示 “even...”，強調出乎意料。',
-        simpEx: ['这首歌很流行，连小孩子都会唱。', '他太忙了，连吃饭的时间都没有。'],
-        tradEx: ['這首歌很流行，連小孩子都會唱。', '他太忙了，連吃飯的時間都沒有。'],
-        quiz: { question: '他太忙了，_____ 周末都不能好好休息。', options: ['连', '谁', '对'], answer: 0, explain: '“连……都……”用来强调“even weekends”。' }
-      },
-      {
-        title: '对……有兴趣 / 對……有興趣',
-        simpExplain: '表示 someone is interested in something.',
-        tradExplain: '表示 someone is interested in something.',
-        simpEx: ['我对中国历史很有兴趣。', '她对流行音乐没有什么兴趣。'],
-        tradEx: ['我對中國歷史很有興趣。', '她對流行音樂沒有什麼興趣。'],
-        quiz: { question: '他 _____ 中国文化很有兴趣。', options: ['对', '把', '跟'], answer: 0, explain: '固定搭配是“对……有兴趣”。' }
-      },
-      {
-        title: '不但……也…… / 不但……也……',
-        simpExplain: '表示 “not only..., but also...”。',
-        tradExplain: '表示 “not only..., but also...”。',
-        simpEx: ['他不但会唱歌，也会画画。', '这个地方不但风景漂亮，也很安静。'],
-        tradEx: ['他不但會唱歌，也會畫畫。', '這個地方不但風景漂亮，也很安靜。'],
-        quiz: { question: '这本书不但有意思，_____ 很有用。', options: ['都', '也', '可是'], answer: 1, explain: '固定搭配是“不但……也……”。' }
-      },
-      {
-        title: '对……有用 / 有用处',
-        simpExplain: '可以用来表达 usefulness。',
-        tradExplain: '可以用來表達 usefulness。',
-        simpEx: ['这个办法很有用。', '学中文对我以后很有用处。'],
-        tradEx: ['這個辦法很有用。', '學中文對我以後很有用處。'],
-        quiz: { question: '这个建议对我很有 ____。', options: ['用处', '举行', '总是'], answer: 0, explain: '“有用处”表示 useful.' }
+        title: 'Additional Review — 对……有兴趣 / 不但……也……',
+        simpExplain: '期末复习补充两个常用结构：对……有兴趣；不但……也……。',
+        tradExplain: '期末複習補充兩個常用結構：對……有興趣；不但……也……。',
+        simpEx: ['我对中国历史很有兴趣。', '他不但会唱歌，也会画画。'],
+        tradEx: ['我對中國歷史很有興趣。', '他不但會唱歌，也會畫畫。'],
+        quiz: { question: '这本书不但有意思，_____ 很有用。', options: ['也', '都', '却'], answer: 0, explain: '固定搭配是“不但……也……”。' }
       }
     ];
 
@@ -981,8 +994,15 @@
       return card;
     }
 
-    vocabData.forEach((item, index) => vocabGrid.appendChild(createVocabCard(item, index)));
-    charPinyinData.forEach((item, index) => charPinyinGrid.appendChild(createCharPinyinCard(item, index)));
+    const normalizePinyin = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z]/g, '').toLowerCase();
+
+    [...vocabData]
+      .sort((a, b) => normalizePinyin(a.pinyin).localeCompare(normalizePinyin(b.pinyin)))
+      .forEach((item, index) => vocabGrid.appendChild(createVocabCard(item, index)));
+
+    [...charPinyinData]
+      .sort((a, b) => normalizePinyin(a.correct).localeCompare(normalizePinyin(b.correct)))
+      .forEach((item, index) => charPinyinGrid.appendChild(createCharPinyinCard(item, index)));
     radicalData.forEach(item => radicalGrid.appendChild(createRadicalCard(item)));
     grammarData.forEach((item, index) => grammarGrid.appendChild(createGrammarCard(item, index)));
 
