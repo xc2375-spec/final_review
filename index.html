@@ -1193,6 +1193,103 @@
       }
     ];
 
+    function setupCanvas(canvas, clearBtn) {
+      const ctx = canvas.getContext('2d');
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#8b3d2e';
+      let drawing = false;
+      let rect = null;
+
+      function getPos(e) {
+        rect = rect || canvas.getBoundingClientRect();
+        if (e.touches && e.touches[0]) {
+          return {
+            x: (e.touches[0].clientX - rect.left) * (canvas.width / rect.width),
+            y: (e.touches[0].clientY - rect.top) * (canvas.height / rect.height)
+          };
+        }
+        return {
+          x: (e.clientX - rect.left) * (canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      function start(e) {
+        drawing = true;
+        rect = canvas.getBoundingClientRect();
+        const { x, y } = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      function move(e) {
+        if (!drawing) return;
+        const { x, y } = getPos(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+
+      function end() {
+        drawing = false;
+        ctx.closePath();
+      }
+
+      canvas.addEventListener('pointerdown', start);
+      canvas.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', end);
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, { passive: false });
+      canvas.addEventListener('touchend', end);
+      clearBtn.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+    }
+
+    function buildHanziTargets(word, prefix) {
+      return word.split('').map((ch, i) => `
+        <div class="hw-char-cell">
+          <div class="hanzi-target" id="${prefix}-${i}" data-char="${ch}"></div>
+        </div>
+      `).join('');
+    }
+
+    function initWriterLoop(root) {
+      if (!window.HanziWriter || root.dataset.hwReady === '1') return;
+      root.dataset.hwReady = '1';
+      const targets = Array.from(root.querySelectorAll('.hanzi-target'));
+      const writers = targets.map((el) => HanziWriter.create(el, el.dataset.char, {
+        width: 76,
+        height: 76,
+        padding: 6,
+        showOutline: true,
+        showCharacter: false,
+        strokeAnimationSpeed: 1,
+        delayBetweenStrokes: 120,
+        outlineColor: '#e6d7ca',
+        strokeColor: '#8b3d2e',
+        drawingColor: '#8b3d2e',
+        renderer: 'svg'
+      }));
+
+      async function playLoop() {
+        while (document.body.contains(root)) {
+          for (const writer of writers) {
+            writer.hideCharacter();
+            writer.showOutline();
+          }
+          for (const writer of writers) {
+            try {
+              await writer.animateCharacter();
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+      playLoop();
+    }
+
+
     function createVocabCard(item, index) {
 
       const card = document.createElement('article');
