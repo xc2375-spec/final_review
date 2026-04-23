@@ -395,6 +395,87 @@
       margin: 8px auto;
     }
 
+    .script-switch {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .script-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .script-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 8px 20px rgba(139,61,46,.18);
+    }
+
+    .grammar-intro {
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fffdf9, #f8efe6);
+    }
+
+    .grammar-pattern {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f8eee5;
+      color: var(--accent);
+      font-weight: 700;
+      margin: 6px 0 10px;
+    }
+
+    .grammar-explain-en {
+      margin: 10px 0 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fffaf4;
+      border: 1px solid #eadfd3;
+      color: #4a4038;
+      font-size: .96rem;
+    }
+
+    .grammar-mini-note {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f9f5ef;
+      border-left: 4px solid var(--accent2);
+      font-size: .96rem;
+    }
+
+    .grammar-ex-list {
+      margin: 10px 0 0;
+      padding-left: 1.25rem;
+    }
+
+    .grammar-ex-list li {
+      margin: 6px 0;
+    }
+
+    .practice-block {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed #eadfd3;
+    }
+
+    .practice-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
     @media (max-width: 720px) {
       .lang-block { grid-template-columns: 1fr; }
       .tooltip { left: 0; right: 0; width: auto; transform: none; }
@@ -466,7 +547,16 @@
         <div class="section-head">
           <div>
             <h2>4. 语法复习 Grammar Review</h2>
-            
+            <p>下面的语法卡片更适合学生自己复习。先选简体或繁体，再看中文说明、英文提示和例句，最后完成练习。</p>
+          </div>
+          <div class="script-switch" role="group" aria-label="Choose script for grammar review">
+            <button class="script-btn active" id="scriptSimpBtn" type="button">简体 Simplified</button>
+            <button class="script-btn" id="scriptTradBtn" type="button">繁體 Traditional</button>
+          </div>
+        </div>
+        <div class="grammar-intro card">
+          <div class="pill">How to use</div>
+          <p><strong>Step 1:</strong> Choose your preferred script. <strong>Step 2:</strong> Read the short note and examples. <strong>Step 3:</strong> Try the practice question and check your answer right away.</p>
         </div>
         <div class="grid grammar-grid" id="grammarGrid"></div>
       </div>
@@ -662,106 +752,387 @@
       }
     ];
 
+    let currentGrammarScript = 'simp';
+
     const grammarData = [
       {
-        title: 'Lesson 11 — 被 Construction',
-        simpExplain: '重点复习被字句：A 被 B + V。也注意让 / 叫 / 给在口语里的相关用法。',
-        tradExplain: '重點複習被字句：A 被 B + V。也注意讓 / 叫 / 給在口語裡的相關用法。',
-        simpEx: ['他养的老鼠被那只猫吃了。', '昨天我们选功夫最好的人，没想到小张也被选上了。'],
-        tradEx: ['他養的老鼠被那隻貓吃了。', '昨天我們選功夫最好的人，沒想到小張也被選上了。'],
-        quiz: { question: '你的茶杯在这儿，没 ____ 他拿走。', options: ['被', '比', '着'], answer: 0, explain: '这里复习被字句，用“被”。' }
+        title: 'Lesson 11 — 被字句 / 被字句',
+        tag: '被 Construction',
+        pattern: { simp: 'A 被 B + V', trad: 'A 被 B + V' },
+        explain: {
+          simp: '被字句表示主语受到一个动作的影响。口语里，有时候也会看到 让 / 叫 来表达类似意思。',
+          trad: '被字句表示主語受到一個動作的影響。口語裡，有時候也會看到 讓 / 叫 來表達類似意思。',
+          en: 'Use 被 when the subject receives an action. In everyday speech, 讓 / 叫 can sometimes express a similar passive-like idea.'
+        },
+        examples: [
+          { simp: '他养的老鼠被那只猫吃了。', trad: '他養的老鼠被那隻貓吃了。' },
+          { simp: '昨天我们选功夫最好的人，没想到小张也被选上了。', trad: '昨天我們選功夫最好的人，沒想到小張也被選上了。' },
+          { simp: '老虎还在山上，没被猎人给打死。', trad: '老虎還在山上，沒被獵人給打死。' }
+        ],
+        note: {
+          simp: '说“作者是谁”时，中文通常说：这封信是 Bill Clinton 写的。一般不说：这封信被 Bill Clinton 写了。',
+          trad: '說「作者是誰」時，中文通常說：這封信是 Bill Clinton 寫的。一般不說：這封信被 Bill Clinton 寫了。'
+        },
+        practice: [
+          {
+            question: { simp: '你的茶杯在这儿，没 ____ 他拿走。', trad: '你的茶杯在這兒，沒 ____ 他拿走。' },
+            options: [
+              { simp: '被', trad: '被' },
+              { simp: '比', trad: '比' },
+              { simp: '着', trad: '著' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。这里要用被字句：没被他拿走。',
+              trad: '對。這裡要用被字句：沒被他拿走。'
+            }
+          },
+          {
+            question: { simp: '英文 “This letter was written by Bill Clinton.” 更自然的中文是：', trad: '英文 “This letter was written by Bill Clinton.” 更自然的中文是：' },
+            options: [
+              { simp: '这封信被 Bill Clinton 写了。', trad: '這封信被 Bill Clinton 寫了。' },
+              { simp: '这封信是 Bill Clinton 写的。', trad: '這封信是 Bill Clinton 寫的。' },
+              { simp: '这封信比 Bill Clinton 写。', trad: '這封信比 Bill Clinton 寫。' }
+            ],
+            answer: 1,
+            feedback: {
+              simp: '对。表示作者是谁时，中文更自然地用“是……写的”。',
+              trad: '對。表示作者是誰時，中文更自然地用「是……寫的」。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 12 — V着',
-        simpExplain: 'V着可以表示状态持续，也可以表示一边做一个动作，一边做另一个动作。',
-        tradExplain: 'V著可以表示狀態持續，也可以表示一邊做一個動作，一邊做另一個動作。',
-        simpEx: ['他在门那儿站着。', '他常常看着电视吃饭。'],
-        tradEx: ['他在門那兒站著。', '他常常看著電視吃飯。'],
-        quiz: { question: '门那儿站 ____ 一个人。', options: ['着', '满', '比'], answer: 0, explain: 'Place + V着 + Noun 是 Lesson 12 的重点。' }
+        title: 'Lesson 12 — V着 / V著',
+        tag: 'Continuous state',
+        pattern: { simp: 'V着 / Place + V着 + Noun', trad: 'V著 / Place + V著 + Noun' },
+        explain: {
+          simp: 'V着可以表示状态持续，也可以表示一边做一个动作，一边做另一个动作。',
+          trad: 'V著可以表示狀態持續，也可以表示一邊做一個動作，一邊做另一個動作。',
+          en: 'V着 / V著 can show a continuing state or an accompanying action.'
+        },
+        examples: [
+          { simp: '他在门那儿站着。', trad: '他在門那兒站著。' },
+          { simp: '墙上挂着一张地图。', trad: '牆上掛著一張地圖。' },
+          { simp: '他常常看着电视吃饭。', trad: '他常常看著電視吃飯。' }
+        ],
+        practice: [
+          {
+            question: { simp: '门那儿站 ____ 一个人。', trad: '門那兒站 ____ 一個人。' },
+            options: [
+              { simp: '着', trad: '著' },
+              { simp: '满', trad: '滿' },
+              { simp: '比', trad: '比' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。Place + V着 + Noun 是这一课的重要格式。',
+              trad: '對。Place + V著 + Noun 是這一課的重要格式。'
+            }
+          },
+          {
+            question: { simp: '“你们先吃着，我马上回来。” 里面的 吃着 表示：', trad: '「你們先吃著，我馬上回來。」 裡面的 吃著 表示：' },
+            options: [
+              { simp: '动作继续进行', trad: '動作繼續進行' },
+              { simp: '被动', trad: '被動' },
+              { simp: '比较', trad: '比較' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。这里表示动作先继续。',
+              trad: '對。這裡表示動作先繼續。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 12 — V满 / 滿',
-        simpExplain: 'V满表示某个地方装满、挤满、放满了东西或人。',
-        tradExplain: 'V滿表示某個地方裝滿、擠滿、放滿了東西或人。',
-        simpEx: ['那个房间里放满了东西，我们走不进去。', '车上挤满了赶着回家过年的人。'],
-        tradEx: ['那個房間裡放滿了東西，我們走不進去。', '車上擠滿了趕著回家過年的人。'],
-        quiz: { question: '春节时，墙上 ____ 满了各种年画。', options: ['挂', '写', '听'], answer: 0, explain: 'Lesson 12 复习的是 V满 结构。' }
+        title: 'Lesson 12 — V满 / V滿',
+        tag: 'Filled with',
+        pattern: { simp: 'V满 + Noun / Place', trad: 'V滿 + Noun / Place' },
+        explain: {
+          simp: 'V满表示某个地方装满、挤满、放满了东西或人。',
+          trad: 'V滿表示某個地方裝滿、擠滿、放滿了東西或人。',
+          en: 'V满 / V滿 means “to fill up” or “to be full of.”'
+        },
+        examples: [
+          { simp: '那个房间里放满了东西，我们走不进去了。', trad: '那個房間裡放滿了東西，我們走不進去了。' },
+          { simp: '车上挤满了赶着回家过年的人。', trad: '車上擠滿了趕著回家過年的人。' },
+          { simp: '台阶上站满了学生。', trad: '臺階上站滿了學生。' }
+        ],
+        practice: [
+          {
+            question: { simp: '春节时，墙上 ____ 满了各种年画。', trad: '春節時，牆上 ____ 滿了各種年畫。' },
+            options: [
+              { simp: '挂', trad: '掛' },
+              { simp: '写', trad: '寫' },
+              { simp: '听', trad: '聽' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。墙上挂满了各种年画。',
+              trad: '對。牆上掛滿了各種年畫。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 12 — 正在 / 在 / 呢',
-        simpExplain: '正在 / 正 / 在 可以表示动作正在进行，句末常常加 呢。',
-        tradExplain: '正在 / 正 / 在 可以表示動作正在進行，句末常常加 呢。',
-        simpEx: ['你在做什么呢？', '我正在看书呢。'],
-        tradEx: ['你在做什麼呢？', '我正在看書呢。'],
-        quiz: { question: '他现在正在睡觉，别叫他。这里“正在”表示：', options: ['过去的动作', '正在进行的动作', '比较'], answer: 1, explain: '“正在”表示 the action is in progress.' }
+        title: 'Lesson 12 — 正 / 正在 / 在……呢',
+        tag: 'Action in progress',
+        pattern: { simp: '正 / 正在 / 在 + V (+ 呢)', trad: '正 / 正在 / 在 + V (+ 呢)' },
+        explain: {
+          simp: '正、正在、在……呢 都可以表示动作正在进行。',
+          trad: '正、正在、在……呢 都可以表示動作正在進行。',
+          en: 'Use 正 / 正在 / 在…呢 to show that an action is in progress.'
+        },
+        examples: [
+          { simp: '你在做什么呢？', trad: '你在做什麼呢？' },
+          { simp: '我正在看书呢。', trad: '我正在看書呢。' },
+          { simp: '老王进来的时候，我们正吃饺子呢。', trad: '老王進來的時候，我們正吃餃子呢。' }
+        ],
+        practice: [
+          {
+            question: { simp: '“我正在看书呢” 里的 正在 表示：', trad: '「我正在看書呢」裡的 正在 表示：' },
+            options: [
+              { simp: '过去的习惯', trad: '過去的習慣' },
+              { simp: '动作正在进行', trad: '動作正在進行' },
+              { simp: '将来的计划', trad: '將來的計畫' }
+            ],
+            answer: 1,
+            feedback: {
+              simp: '对。正在 表示 the action is happening now.',
+              trad: '對。正在 表示 the action is happening now.'
+            }
+          }
+        ]
       },
       {
         title: 'Lesson 13 — 使 / 叫 / 让',
-        simpExplain: '使、叫、让都可以表示“使某人做某事 / 让某人怎么样”。使的宾语可以是人或事物，叫和让的宾语一般是人。',
-        tradExplain: '使、叫、讓都可以表示「使某人做某事 / 讓某人怎麼樣」。使的賓語可以是人或事物，叫和讓的賓語一般是人。',
-        simpEx: ['最近的天气使人很不舒服。', '你刚才说的话叫我很伤心。'],
-        tradEx: ['最近的天氣使人很不舒服。', '你剛才說的話叫我很傷心。'],
-        quiz: { question: '这种话 ____ 人听了很高兴。', options: ['使', '比', '被'], answer: 0, explain: 'Lesson 13 复习 causative verbs。' }
+        tag: 'Causative verbs',
+        pattern: { simp: '使 / 叫 / 让 + someone/something + complement', trad: '使 / 叫 / 讓 + someone/something + complement' },
+        explain: {
+          simp: '使、叫、让都可以表示“使某人怎么样 / 让某人做某事”。使比较正式；叫、让更口语。',
+          trad: '使、叫、讓都可以表示「使某人怎麼樣 / 讓某人做某事」。使比較正式；叫、讓更口語。',
+          en: 'These verbs mean “make,” “let,” or “cause.” 使 is more formal, while 叫 / 让 are more conversational.'
+        },
+        examples: [
+          { simp: '最近的天气使人很不舒服。', trad: '最近的天氣使人很不舒服。' },
+          { simp: '你刚才说的话叫我很伤心。', trad: '你剛才說的話叫我很傷心。' },
+          { simp: '他妈妈一定要让孩子们生活得很幸福。', trad: '他媽媽一定要讓孩子們生活得很幸福。' }
+        ],
+        practice: [
+          {
+            question: { simp: '这种话 ____ 人听了很讨厌。', trad: '這種話 ____ 人聽了很討厭。' },
+            options: [
+              { simp: '使', trad: '使' },
+              { simp: '比', trad: '比' },
+              { simp: '被', trad: '被' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。这里最自然的是“使人听了很讨厌”。',
+              trad: '對。這裡最自然的是「使人聽了很討厭」。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 14 — V得 Clause',
-        simpExplain: 'V得后面可以接补语或小句，说明动作进行的程度或结果。',
-        tradExplain: 'V得後面可以接補語或小句，說明動作進行的程度或結果。',
-        simpEx: ['他写字写得快极了。', '现在我肚子饿得话都说不出来了。'],
-        tradEx: ['他寫字寫得快極了。', '現在我肚子餓得話都說不出來了。'],
-        quiz: { question: '他笑得 ____。', options: ['很开心', '被选上了', '比他高'], answer: 0, explain: 'V得后面要接补语或小句。' }
+        title: 'Lesson 14 — V得 clause',
+        tag: 'Degree / result complement',
+        pattern: { simp: 'V得 + complement / clause', trad: 'V得 + complement / clause' },
+        explain: {
+          simp: 'V得后面接补语或小句，说明动作进行的程度、结果或状态。',
+          trad: 'V得後面接補語或小句，說明動作進行的程度、結果或狀態。',
+          en: 'Use V得 to show degree, result, or the state caused by an action.'
+        },
+        examples: [
+          { simp: '他写字写得快极了。', trad: '他寫字寫得快極了。' },
+          { simp: '小李练功练得腿都红了。', trad: '小李練功練得腿都紅了。' },
+          { simp: '现在我肚子饿得话都说不出来了。', trad: '現在我肚子餓得話都說不出來了。' }
+        ],
+        practice: [
+          {
+            question: { simp: '下面哪一句最符合 V得 的格式？', trad: '下面哪一句最符合 V得 的格式？' },
+            options: [
+              { simp: '他笑得很开心。', trad: '他笑得很開心。' },
+              { simp: '他被开心。', trad: '他被開心。' },
+              { simp: '他比开心。', trad: '他比開心。' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。笑得很开心 是标准的 V得 结构。',
+              trad: '對。笑得很開心 是標準的 V得 結構。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 15 — Comparative Sentence',
-        simpExplain: '比较句重点包括：A 比 B + SV；A 没有 B + SV；A 比 B 更 + SV。',
-        tradExplain: '比較句重點包括：A 比 B + SV；A 沒有 B + SV；A 比 B 更 + SV。',
-        simpEx: ['北京的冬天比纽约的冬天冷。', '纽约的冬天没有北京的冬天冷。', '中文比英文难，日文比中文更难。'],
-        tradEx: ['北京的冬天比紐約的冬天冷。', '紐約的冬天沒有北京的冬天冷。', '中文比英文難，日文比中文更難。'],
-        quiz: { question: '小李很高，小张 ____。', options: ['比小李更高', '被小李高', '对小李有兴趣'], answer: 0, explain: 'Lesson 15 复习比较句。' }
+        title: 'Lesson 15 — 比较句',
+        tag: 'Comparative sentence',
+        pattern: { simp: 'A 比 B … / A 没有 B … / A 比 B 更 …', trad: 'A 比 B … / A 沒有 B … / A 比 B 更 …' },
+        explain: {
+          simp: '比 用来直接比较；没有 表示“不如”；更 表示“更……”。',
+          trad: '比 用來直接比較；沒有 表示「不如」；更 表示「更……」。',
+          en: 'Use 比 for direct comparison, 没有 for “not as…as,” and 更 for “even more.”'
+        },
+        examples: [
+          { simp: '北京的冬天比纽约的冬天冷。', trad: '北京的冬天比紐約的冬天冷。' },
+          { simp: '纽约的冬天没有北京的冬天冷。', trad: '紐約的冬天沒有北京的冬天冷。' },
+          { simp: '中文比英文难，日文比中文更难。', trad: '中文比英文難，日文比中文更難。' }
+        ],
+        practice: [
+          {
+            question: { simp: '小李很高，小张 ____。', trad: '小李很高，小張 ____。' },
+            options: [
+              { simp: '比小李更高', trad: '比小李更高' },
+              { simp: '被小李高', trad: '被小李高' },
+              { simp: '对小李高', trad: '對小李高' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。比较句要用 比 / 更。',
+              trad: '對。比較句要用 比 / 更。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 16 — Question Words as Indefinite Pronouns',
-        note: '重点：什么地方都 = 哪儿都',
-        simpExplain: '疑问词加 都 / 也 可以表示泛指，如 谁都、哪儿都、什么都。',
-        tradExplain: '疑問詞加 都 / 也 可以表示泛指，如 誰都、哪兒都、什麼都。',
-        simpEx: ['我们谁都不认识他。', '哪儿都没有这种电脑。', '我什么电影都爱看。'],
-        tradEx: ['我們誰都不認識他。', '哪兒都沒有這種電腦。', '我什麼電影都愛看。'],
-        quiz: { question: '电脑很能干，_____ 事都会做。', options: ['什么', '谁', '哪儿'], answer: 0, explain: '疑问词加都，表示泛指。' }
+        title: 'Lesson 16 — 疑问词 + 都 / 也',
+        tag: 'Question words as indefinite pronouns',
+        pattern: { simp: '谁都 / 什么都 / 哪儿都 / 怎么……也……', trad: '誰都 / 什麼都 / 哪兒都 / 怎麼……也……' },
+        explain: {
+          simp: '疑问词加 都 / 也 可以表示泛指：谁都、什么都、哪儿都、怎么……也……',
+          trad: '疑問詞加 都 / 也 可以表示泛指：誰都、什麼都、哪兒都、怎麼……也……',
+          en: 'Question words plus 都 / 也 can mean “whoever,” “anything,” “everywhere,” or “no matter how.”'
+        },
+        examples: [
+          { simp: '我们谁都不认识他。', trad: '我們誰都不認識他。' },
+          { simp: '哪儿都没有这种电脑。', trad: '哪兒都沒有這種電腦。' },
+          { simp: '我什么电影都爱看。', trad: '我什麼電影都愛看。' },
+          { simp: '他说话我怎么听也听不懂。', trad: '他說話我怎麼聽也聽不懂。' }
+        ],
+        practice: [
+          {
+            question: { simp: '电脑很能干，_____ 事都会做。', trad: '電腦很能幹，_____ 事都會做。' },
+            options: [
+              { simp: '什么', trad: '什麼' },
+              { simp: '谁', trad: '誰' },
+              { simp: '哪儿', trad: '哪兒' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。什么事都会做。',
+              trad: '對。什麼事都會做。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 17 — Topic-chain and Noun Phrase Deletion',
-        simpExplain: '汉语里前面已经说过的名词，后面常常可以省略，形成 topic chain。',
-        tradExplain: '漢語裡前面已經說過的名詞，後面常常可以省略，形成 topic chain。',
-        simpEx: ['那棵树，花小，叶子大，很不好看，所以我不喜欢。', '她整天想念爸爸，难过得不吃饭也不睡觉，不久就病倒了。'],
-        tradEx: ['那棵樹，花小，葉子大，很不好看，所以我不喜歡。', '她整天想念爸爸，難過得不吃飯也不睡覺，不久就病倒了。'],
-        quiz: { question: '那棵树，___花小，___叶子大，___很不好看，所以我不喜欢___。这些空格主要体现：', options: ['被字句', '名词省略和 topic chain', '比较句'], answer: 1, explain: '这是 Lesson 17 的 topic-chain and noun phrase deletion。' }
+        title: 'Lesson 17 — Topic chain / 名词省略',
+        tag: 'Topic-chain and noun phrase deletion',
+        pattern: { simp: '前面说过的名词，后面可以省略', trad: '前面說過的名詞，後面可以省略' },
+        explain: {
+          simp: '汉语里，如果前面的主题已经很清楚，后面常常可以省略重复的名词。',
+          trad: '漢語裡，如果前面的主題已經很清楚，後面常常可以省略重複的名詞。',
+          en: 'Once a topic is clear, Chinese often omits repeated nouns.'
+        },
+        examples: [
+          { simp: '那棵树，花小，叶子大，很不好看，所以我不喜欢。', trad: '那棵樹，花小，葉子大，很不好看，所以我不喜歡。' },
+          { simp: '姑娘的爸爸在大山里迷了路，又累又饿，已经快要死了。', trad: '姑娘的爸爸在大山裡迷了路，又累又餓，已經快要死了。' },
+          { simp: '她整天想念爸爸，难过得不吃饭也不睡觉，不久就病倒了。', trad: '她整天想念爸爸，難過得不吃飯也不睡覺，不久就病倒了。' }
+        ],
+        practice: [
+          {
+            question: { simp: '“那棵树，花小，叶子大，很不好看，所以我不喜欢。” 主要体现了：', trad: '「那棵樹，花小，葉子大，很不好看，所以我不喜歡。」 主要體現了：' },
+            options: [
+              { simp: '被字句', trad: '被字句' },
+              { simp: '名词省略和 topic chain', trad: '名詞省略和 topic chain' },
+              { simp: '比较句', trad: '比較句' }
+            ],
+            answer: 1,
+            feedback: {
+              simp: '对。这里省略了重复出现的“那棵树 / 它”。',
+              trad: '對。這裡省略了重複出現的「那棵樹 / 它」。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 17 — V + QW + 就 + V + QW / 好像……似的',
-        simpExplain: '这一课还复习 V+什么/谁/哪儿 + 就 + V+什么/谁/哪儿，以及 好像……似的。',
-        tradExplain: '這一課還複習 V+什麼/誰/哪兒 + 就 + V+什麼/誰/哪兒，以及 好像……似的。',
-        simpEx: ['你们做什么，我就吃什么。', '他去哪儿我就去哪儿。', '穿上像要掉下来似的。'],
-        tradEx: ['你們做什麼，我就吃什麼。', '他去哪兒我就去哪兒。', '穿上像要掉下來似的。'],
-        quiz: { question: '你们做什么，我就吃什么。这个结构是：', options: ['V+QW+就+V+QW', '虽然……但……', 'A比B更……'], answer: 0, explain: '这是 Lesson 17 的重点句型。' }
+        title: 'Lesson 17 — V + QW + 就 + V + QW / (好)像……似的',
+        tag: 'Whatever / as if',
+        pattern: { simp: '做什么就做什么 / 好像……似的', trad: '做什麼就做什麼 / 好像……似的' },
+        explain: {
+          simp: '这个句型表示“无论什么 / 谁 / 哪儿……就……”。(好)像……似的 表示“好像……一样”。',
+          trad: '這個句型表示「無論什麼 / 誰 / 哪兒……就……」。(好)像……似的 表示「好像……一樣」。',
+          en: 'Use V + question word + 就 + V + question word for “whatever / wherever / whoever…”. Use (好)像……似的 for “as if / just like…”.'
+        },
+        examples: [
+          { simp: '父母说什么他就做什么。', trad: '父母說什麼他就做什麼。' },
+          { simp: '他去哪儿我就去哪儿。', trad: '他去哪兒我就去哪兒。' },
+          { simp: '穿上像要掉下来似的。', trad: '穿上像要掉下來似的。' },
+          { simp: '他说起话来好像什么都知道似的。', trad: '他說起話來好像什麼都知道似的。' }
+        ],
+        practice: [
+          {
+            question: { simp: '“你们做什么，我就吃什么。” 这个结构是：', trad: '「你們做什麼，我就吃什麼。」 這個結構是：' },
+            options: [
+              { simp: 'V + QW + 就 + V + QW', trad: 'V + QW + 就 + V + QW' },
+              { simp: '虽然……但是……', trad: '雖然……但是……' },
+              { simp: 'A 比 B 更……', trad: 'A 比 B 更……' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。这是这一课最重要的句型之一。',
+              trad: '對。這是這一課最重要的句型之一。'
+            }
+          }
+        ]
       },
       {
-        title: 'Lesson 18 — Idiomatic Expressions and Classical Usage',
-        simpExplain: 'Lesson 18 复习成语和现代汉语中的文言词语，比如 差不多、画蛇添足、对牛弹琴、胸有成竹，以及 於 / 却 / 以及 / 曾经 / 从此 / 称为 / 据说 / 与。',
-        tradExplain: 'Lesson 18 複習成語和現代漢語中的文言詞語，比如 差不多、畫蛇添足、對牛彈琴、胸有成竹，以及 於 / 卻 / 以及 / 曾經 / 從此 / 稱為 / 據說 / 與。',
-        simpEx: ['我从来没听说过关于孟姜女的故事。', '他是美国人，却不喜欢美国音乐。', '这课以及上一课的语法我们下次再讨论吧。'],
-        tradEx: ['我從來沒聽說過關於孟姜女的故事。', '他是美國人，卻不喜歡美國音樂。', '這課以及上一課的語法我們下次再討論吧。'],
-        quiz: { question: '他曾经学过画画，可是没有学好。这里“曾经”表示：', options: ['future', 'once in the past', 'comparison'], answer: 1, explain: '“曾经”表示 once in the past。' }
-      },
-      {
-        title: 'Additional Review — 对……有兴趣 / 不但……也……',
-        simpExplain: '期末复习补充两个常用结构：对……有兴趣；不但……也……。',
-        tradExplain: '期末複習補充兩個常用結構：對……有興趣；不但……也……。',
-        simpEx: ['我对中国历史很有兴趣。', '他不但会唱歌，也会画画。'],
-        tradEx: ['我對中國歷史很有興趣。', '他不但會唱歌，也會畫畫。'],
-        quiz: { question: '这本书不但有意思，_____ 很有用。', options: ['也', '都', '却'], answer: 0, explain: '固定搭配是“不但……也……”。' }
+        title: 'Lesson 18 — 成语与文言词在现代汉语中的用法',
+        tag: 'Idioms and literary words',
+        pattern: { simp: '差不多 / 画蛇添足 / 对牛弹琴 / 胸有成竹 / 关于 / 对于 / 却 / 以及 / 曾经 / 从此 / 称为 / 据说 / 与', trad: '差不多 / 畫蛇添足 / 對牛彈琴 / 胸有成竹 / 關於 / 對於 / 卻 / 以及 / 曾經 / 從此 / 稱為 / 據說 / 與' },
+        explain: {
+          simp: '这一课复习常见成语和一些书面色彩比较强的词语。',
+          trad: '這一課複習常見成語和一些書面色彩比較強的詞語。',
+          en: 'This lesson reviews common idioms and several formal literary words still used in modern Chinese.'
+        },
+        examples: [
+          { simp: '他差不多会写一百个汉字了。', trad: '他差不多會寫一百個漢字了。' },
+          { simp: '跟我谈电脑就是对牛弹琴。', trad: '跟我談電腦就是對牛彈琴。' },
+          { simp: '没问题！早就胸有成竹了。', trad: '沒問題！早就胸有成竹了。' },
+          { simp: '他是美国人，却不喜欢美国音乐。', trad: '他是美國人，卻不喜歡美國音樂。' },
+          { simp: '他曾经学过画画，可是没有学好。', trad: '他曾經學過畫畫，可是沒有學好。' }
+        ],
+        practice: [
+          {
+            question: { simp: '“他曾经学过画画” 里的 曾经 表示：', trad: '「他曾經學過畫畫」 裡的 曾經 表示：' },
+            options: [
+              { simp: '未来计划', trad: '未來計畫' },
+              { simp: '过去有过一次或一段经历', trad: '過去有過一次或一段經歷' },
+              { simp: '比较', trad: '比較' }
+            ],
+            answer: 1,
+            feedback: {
+              simp: '对。曾经 = once / previously.',
+              trad: '對。曾經 = once / previously.'
+            }
+          },
+          {
+            question: { simp: '“对牛弹琴” 最接近的意思是：', trad: '「對牛彈琴」 最接近的意思是：' },
+            options: [
+              { simp: '对不懂的人讲复杂的东西', trad: '對不懂的人講複雜的東西' },
+              { simp: '画画很好', trad: '畫畫很好' },
+              { simp: '已经准备好了', trad: '已經準備好了' }
+            ],
+            answer: 0,
+            feedback: {
+              simp: '对。对牛弹琴表示说给不懂的人听，效果不好。',
+              trad: '對。對牛彈琴表示說給不懂的人聽，效果不好。'
+            }
+          }
+        ]
       }
     ];
-
     const vocabGrid = document.getElementById('vocabGrid');
     const charPinyinGrid = document.getElementById('charPinyinGrid');
     const radicalGrid = document.getElementById('radicalGrid');
@@ -958,114 +1329,53 @@
 
     function createGrammarCard(item, index) {
       const card = document.createElement('article');
-      card.className = 'card';
-      const qName = `grammar-${index}`;
+      card.className = 'card grammar-lesson';
+
+      const practiceHtml = item.practice.map((p, pIndex) => {
+        const qName = `grammar-${index}-${pIndex}`;
+        return `
+          <div class="practice-block">
+            <div class="practice-title">Practice ${pIndex + 1}</div>
+            <div class="quiz-question"><strong>${currentGrammarScript === 'simp' ? '练习题' : '練習題'}:</strong> ${p.question[currentGrammarScript]}</div>
+            <div class="quiz-options">
+              ${p.options.map((opt, i) => `
+                <label class="option">
+                  <input type="radio" name="${qName}" value="${i}">
+                  ${String.fromCharCode(65 + i)}. ${opt[currentGrammarScript]}
+                </label>
+              `).join('')}
+            </div>
+            <button class="btn check-grammar" data-name="${qName}" data-answer="${p.answer}" data-feedback-simp="${p.feedback.simp.replace(/"/g, '&quot;')}" data-feedback-trad="${p.feedback.trad.replace(/"/g, '&quot;')}">${currentGrammarScript === 'simp' ? '检查答案' : '檢查答案'}</button>
+            <div class="feedback"></div>
+          </div>
+        `;
+      }).join('');
+
       card.innerHTML = `
         <div class="pill">Pattern ${index + 1}</div>
         <h3>${item.title}</h3>
-        ${item.note ? `<div class="equal-note">${item.note}</div>` : ''}
-        <div class="lang-block">
-          <div class="lang-box">
-            <h4>简体 Simplified</h4>
-            <p>${item.simpExplain}</p>
-            <ul>${item.simpEx.map(x => `<li>${x}</li>`).join('')}</ul>
-          </div>
-          <div class="lang-box">
-            <h4>繁體 Traditional</h4>
-            <p>${item.tradExplain}</p>
-            <ul>${item.tradEx.map(x => `<li>${x}</li>`).join('')}</ul>
-          </div>
+        <div class="grammar-pattern">${item.tag}</div>
+        <div class="grammar-mini-note"><strong>${currentGrammarScript === 'simp' ? '句型' : '句型'}：</strong> ${item.pattern[currentGrammarScript]}</div>
+        <p>${item.explain[currentGrammarScript]}</p>
+        <div class="grammar-explain-en"><strong>English:</strong> ${item.explain.en}</div>
+        <div class="lang-box">
+          <h4>${currentGrammarScript === 'simp' ? '例句 Examples' : '例句 Examples'}</h4>
+          <ul class="grammar-ex-list">${item.examples.map(ex => `<li>${ex[currentGrammarScript]}</li>`).join('')}</ul>
         </div>
-        <div class="quiz">
-          <div class="quiz-question"><strong>选择题 Multiple Choice:</strong> ${item.quiz.question}</div>
-          <div class="quiz-options">
-            ${item.quiz.options.map((opt, i) => `
-              <label class="option">
-                <input type="radio" name="${qName}" value="${i}">
-                ${String.fromCharCode(65 + i)}. ${opt}
-              </label>
-            `).join('')}
-          </div>
-          <button class="btn check-grammar" data-name="${qName}" data-answer="${item.quiz.answer}" data-explain="${item.quiz.explain}">检查答案 Check Answer</button>
-          <div class="feedback"></div>
-        </div>
+        ${item.note ? `<div class="grammar-mini-note"><strong>${currentGrammarScript === 'simp' ? '学习提醒' : '學習提醒'}：</strong> ${item.note[currentGrammarScript]}</div>` : ''}
+        <div class="quiz">${practiceHtml}</div>
       `;
       return card;
     }
 
-    const normalizePinyin = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z]/g, '').toLowerCase();
+    function renderGrammarCards() {
+      grammarGrid.innerHTML = '';
+      renderGrammarCards();
+      attachGrammarCheckHandlers();
+    }
 
-    [...vocabData]
-      .sort((a, b) => normalizePinyin(a.pinyin).localeCompare(normalizePinyin(b.pinyin)))
-      .forEach((item, index) => vocabGrid.appendChild(createVocabCard(item, index)));
-
-    [...charPinyinData]
-      .sort((a, b) => normalizePinyin(a.correct).localeCompare(normalizePinyin(b.correct)))
-      .forEach((item, index) => charPinyinGrid.appendChild(createCharPinyinCard(item, index)));
-    radicalData.forEach(item => radicalGrid.appendChild(createRadicalCard(item)));
-    grammarData.forEach((item, index) => grammarGrid.appendChild(createGrammarCard(item, index)));
-
-    document.getElementById('vocabSearch').addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      document.querySelectorAll('.vocab-card').forEach(card => {
-        card.style.display = card.dataset.search.includes(q) ? '' : 'none';
-      });
-    });
-
-    document.getElementById('showAllVocab').addEventListener('click', () => {
-      document.querySelectorAll('.vocab-card .answer').forEach(el => el.classList.add('show'));
-    });
-    document.getElementById('hideAllVocab').addEventListener('click', () => {
-      document.querySelectorAll('.vocab-card .answer').forEach(el => el.classList.remove('show'));
-    });
-
-    document.querySelectorAll('.check-char-pinyin').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.name;
-        const answer = btn.dataset.answer;
-        const explain = btn.dataset.explain;
-        const checked = document.querySelector(`input[name="${name}"]:checked`);
-        const feedback = btn.nextElementSibling;
-        feedback.classList.add('show');
-        if (!checked) {
-          feedback.className = 'feedback show bad';
-          feedback.textContent = 'Please choose an answer first.';
-          return;
-        }
-        if (checked.value === answer) {
-          feedback.className = 'feedback show ok';
-          feedback.textContent = `Correct. ${explain}`;
-        } else {
-          feedback.className = 'feedback show bad';
-          feedback.textContent = `Not quite. ${explain}`;
-        }
-      });
-    });
-
-    document.querySelectorAll('.check-grammar').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.name;
-        const answer = Number(btn.dataset.answer);
-        const explain = btn.dataset.explain;
-        const checked = document.querySelector(`input[name="${name}"]:checked`);
-        const feedback = btn.nextElementSibling;
-        feedback.classList.add('show');
-        if (!checked) {
-          feedback.className = 'feedback show bad';
-          feedback.textContent = 'Please choose an answer first.';
-          return;
-        }
-        if (Number(checked.value) === answer) {
-          feedback.className = 'feedback show ok';
-          feedback.textContent = `Correct. ${explain}`;
-        } else {
-          feedback.className = 'feedback show bad';
-          feedback.textContent = `Not quite. ${explain}`;
-        }
-      });
-    });
-
-    function closeAllTooltips(except = null) {
+    function attachGrammarCheckHandlers() {
+      function closeAllTooltips(except = null) {
       document.querySelectorAll('.tooltip').forEach(tt => {
         if (tt !== except) tt.classList.remove('show');
       });
@@ -1091,6 +1401,19 @@
         if (!open) tt.classList.add('show');
       });
     });
+
+    const scriptSimpBtn = document.getElementById('scriptSimpBtn');
+    const scriptTradBtn = document.getElementById('scriptTradBtn');
+
+    function setGrammarScript(script) {
+      currentGrammarScript = script;
+      scriptSimpBtn.classList.toggle('active', script === 'simp');
+      scriptTradBtn.classList.toggle('active', script === 'trad');
+      renderGrammarCards();
+    }
+
+    scriptSimpBtn.addEventListener('click', () => setGrammarScript('simp'));
+    scriptTradBtn.addEventListener('click', () => setGrammarScript('trad'));
 
     document.addEventListener('click', () => closeAllTooltips());
   </script>
